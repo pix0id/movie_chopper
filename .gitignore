@@ -1,0 +1,10 @@
+venv
+movies/*.avi
+movies/*.mp4
+movies/*.mkv
+movies/*.wav
+movies/clips/*.avi
+movies/clips/*.mp4
+movies/clips/*.mkv
+movies/clips/*.wav
+        
