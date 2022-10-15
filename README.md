@@ -26,7 +26,7 @@ Created using [MoviePy](https://zulko.github.io/moviepy/index.html)
 | Codec  | Extension | Description |
 | ------------- | ------------- | ------------- |
 | `libx264`  | `.mp4`  | makes well-compressed videos (quality tunable using ‘bitrate’).  |
-| 'mpeg4  | `.mp4` | can be an alternative to `libx264`, and produces higher quality videos by default. | 
+| `mpeg4`  | `.mp4` | can be an alternative to `libx264`, and produces higher quality videos by default. | 
 | `rawvideo`  | `.avi` | will produce a video of perfect quality, of possibly very huge size. |
 | `png`  | `.avi` | will produce a video of perfect quality, of smaller size than with `rawvideo` |
 | `libvorbis`  | `.ogv` | is a nice video format, which is completely free/ open source. |
