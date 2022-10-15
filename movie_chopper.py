@@ -1,7 +1,3 @@
-# FIXME: refactor args. File was removed and added to app. Set function arguments if needed.
-
-
-from email.mime import audio
 from moviepy.editor import *
 import os
 import math
@@ -27,11 +23,6 @@ length_in_seconds = 60*int(args.length)
 number_of_clips = int(args.number_of_clips)
 touched_movies = []
 count = 0
-
-# TODO: while count is less than number_of_clips, run chop.clip_random_movie()
-# TODO: After clipping is complete, merge all videos together into one file.
-# TODO: Remove audio and replace it with ~*~V I B E S~*~ (vibes TBD)
-
 
 def get_movies(movie_path):
         # FIXME: Only return video files! Check moviepy documentation for list of file types accepted.
