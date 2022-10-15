@@ -1,13 +1,40 @@
 # FIXME: refactor args. File was removed and added to app. Set function arguments if needed.
 
 
+from email.mime import audio
 from moviepy.editor import *
 import os
+import math
 import random
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-l", "--length", dest="length", default="1", help="Clip duration in whole minutes")
+parser.add_argument("-n", "--num", dest="number_of_clips", default="1", help="Number of clips to create")
+parser.add_argument("-p", "--path", dest="movie_path", default="movies/", help="Movie Folder Path (Only have videos, no subdirectoies.")
+parser.add_argument("-c", "--clips", dest="clip_path", default="movies/clips/", help="Folder for clip output")
+
+args = parser.parse_args()
+
+# Path variables
+movie_path = args.movie_path
+clip_path = args.clip_path
+
+# Timing variables
+length_in_seconds = 60*int(args.length)
+
+# Logic variables
+number_of_clips = int(args.number_of_clips)
+touched_movies = []
+count = 0
+
+# TODO: while count is less than number_of_clips, run chop.clip_random_movie()
+# TODO: After clipping is complete, merge all videos together into one file.
+# TODO: Remove audio and replace it with ~*~V I B E S~*~ (vibes TBD)
 
 
-def get_movies(movies):
-        # FIXME: Only return video files! Check moviepy documentation for list of file types.
+def get_movies(movie_path):
+        # FIXME: Only return video files! Check moviepy documentation for list of file types accepted.
     '''
         Generates list of videos from specified video path.
         Does not work with nested directories.
@@ -18,8 +45,8 @@ def get_movies(movies):
     '''
     movies_list = []
 
-    for file in os.listdir(movies):
-        if os.path.isfile(os.path.join(movies, file)):
+    for file in os.listdir(movie_path):
+        if os.path.isfile(os.path.join(movie_path, file)):
             movies_list.append(file)
     
     return movies_list
@@ -33,30 +60,44 @@ def set_clip_buffer(video_length, clip_length):
 
 
 def clip_random_movie(movies):
-
     '''
         Chooses a random file from the list of movies
         Checks if the movie has been "touched" recently 
         (Meaning other movies haven't been "touched" recently.)
         Clips chosen movie and writes file
     '''
+
+    global touched_movies
+    global count
     current_movie_name = random.choice(movies)
     
     if current_movie_name not in touched_movies:
         count += 1
+        touched_movies.append(current_movie_name)
 
-        current_movie = VideoFileClip(f"{args.video_path}{current_movie_name}")
-        movie_length = current_movie.duration
+        current_movie = VideoFileClip(f"{movie_path}{current_movie_name}")
+        movie_length = math.floor(current_movie.duration)
+        
         start_index = random.randint(0, set_clip_buffer(movie_length, length_in_seconds))
-
-        clip = current_movie.subclip(start_index, length_in_seconds)
-        clip.write_videofile(f"{args.clip_path}{count + 1}.mp4",codec="libx264")
+        
+        clip = current_movie.subclip(start_index, start_index+length_in_seconds)
+        clip.write_videofile(f"{clip_path}{count}.mp4",codec="libx264")
 
         clip.close()
     else:
-        """Sort lists and check if they're the same. If so, empty touched_movies and start chopping again"""
+        '''
+        Sort lists and check if they're the same. 
+        If so, empty touched_movies and start chopping again
+        '''
         movies.sort()
         touched_movies.sort()
 
         if movies == touched_movies:
             touched_movies = []
+
+
+movies = get_movies(movie_path=movie_path)
+
+
+while count < number_of_clips:
+    clip_random_movie(movies)
