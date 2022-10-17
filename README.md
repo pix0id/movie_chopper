@@ -33,7 +33,7 @@ Created using [MoviePy](https://zulko.github.io/moviepy/index.html)
 | `libvpx`  | `.webm` | is tiny a video format well indicated for web videos (with HTML5). Open source. |
 
 ## TODO:
-1. Add support for chosing codec
+1. Add support for choosing codec
 2. Add support for files in directories
 3. Ignore non video/image/audio files.
-4. Create module for FrankenMovie (Combine clips into one file and add music over video.)
+
