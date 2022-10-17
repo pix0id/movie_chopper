@@ -1,4 +1,8 @@
 venv
+*.avi
+*.mp4
+*.mkv
+*.wav
 movies/*.avi
 movies/*.mp4
 movies/*.mkv

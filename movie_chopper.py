@@ -26,6 +26,7 @@ count = 0
 
 def get_movies(movie_path):
         # FIXME: Only return video files! Check moviepy documentation for list of file types accepted.
+        # TODO: name everything more "general" can be confusing since it's being used for clips and movies.
     '''
         Generates list of videos from specified video path.
         Does not work with nested directories.
@@ -87,8 +88,26 @@ def clip_random_movie(movies):
             touched_movies = []
 
 
+def concat_clips(clips_folder):
+    clips = get_movies(movie_path=clip_path)
+    clip_list = []
+
+    for clip in clips:
+        clip_file = VideoFileClip(f"{clip_path}{clip}")
+        clip_list.append(clip_file)
+    
+    final_clip = concatenate_videoclips(clip_list)
+    final_clip.write_videofile("concat.mp4")
+
+
+# Actual execution
+
+# get movies list
 movies = get_movies(movie_path=movie_path)
 
-
+# Create clips
 while count < number_of_clips:
     clip_random_movie(movies)
+
+# F R A N K E N M O V I E
+concat_clips(clips_folder=clip_path)
