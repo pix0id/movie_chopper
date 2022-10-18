@@ -7,7 +7,7 @@ Created using [MoviePy](https://zulko.github.io/moviepy/index.html)
 ## Steps:
 1. Create a folder in the root directory called "movies" and the sub folder "movies/clips"
 2. Create a python virtual environment `python -m venv venv`
-3. Activate the virtual environment (`source venv/bin/activate` on Linux/macOS, `venv\\Scripts\\activate` on Windows)
+3. Activate the virtual environment (`source venv/bin/activate` on Linux/macOS, `venv\Scripts\activate` on Windows)
 3. Run `pip install moviepy`
 4. Place all LEGALLY OBTAINED video files into a folder
 5. Run the script and the movie magic will happen.
