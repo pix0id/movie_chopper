@@ -31,7 +31,7 @@ def concat_clips(clips_folder):
         clip_file = VideoFileClip(f"{clip_path}{clip}")
         clip_list.append(clip_file)
     
-    final_clip = concatenate_videoclips(clip_list)
+    final_clip = concatenate_videoclips(clip_list, method="compose")
     final_clip.write_videofile("concat.mp4")
 
 # F R A N K E N M O V I E
