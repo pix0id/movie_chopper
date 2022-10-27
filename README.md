@@ -34,6 +34,7 @@ Created using [MoviePy](https://zulko.github.io/moviepy/index.html)
 
 ## TODO:
 1. Add support for choosing codec
-2. Add support for files in directories
-3. Ignore non video/image/audio files.
+2. Add support for files in sub-directories
+4. either clean out the clips folder or start clip file count at last index from clips folder (i.e. if you have 10 clips already, start at 11.).
+5. add number counter/movie title to one of the corners.
 

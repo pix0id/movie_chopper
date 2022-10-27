@@ -3,7 +3,7 @@ import os
 
 clip_path = "movies/clips"
 
-def get_movies(movie_path):
+def get_video_files(movie_path):
         # FIXME: Only return video files! Check moviepy documentation for list of file types accepted.
         # TODO: name everything more "general" can be confusing since it's being used for clips and movies.
     '''
@@ -24,7 +24,7 @@ def get_movies(movie_path):
 
 
 def concat_clips(clips_folder):
-    clips = get_movies(movie_path=clip_path)
+    clips = get_video_files(movie_path=clip_path)
     clip_list = []
 
     for clip in clips:
