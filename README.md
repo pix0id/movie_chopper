@@ -20,7 +20,7 @@ Created using [MoviePy](https://zulko.github.io/moviepy/index.html)
 | -n  | --num | 1 (int) | Number of clips to create |
 | -p  | --path | "movies/" | Movie Folder Path |
 | -c  | --clips | "movies/clips" | Folder for clip output |
-
+_cli arguments will be made invalid in future update!_
 
 ## Moviepy codecs:
 | Codec  | Extension | Description |
