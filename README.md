@@ -21,6 +21,7 @@ Created using [MoviePy](https://zulko.github.io/moviepy/index.html)
 | -p  | --path | "movies/" | Movie Folder Path |
 | -c  | --clips | "movies/clips" | Folder for clip output |
 
+_cli arguments will be made invalid in future update!_
 
 ## Moviepy codecs:
 | Codec  | Extension | Description |

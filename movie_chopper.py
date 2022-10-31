@@ -10,6 +10,8 @@ import settings
 touched_movies = []
 count = 0
 
+
+
 def get_file_extension(file):
     split_name = file.split('.')
     ext = split_name[-1]
@@ -39,11 +41,16 @@ def get_video_files(video_path):
     '''
     movies_list = []
 
-    for file in os.listdir(settings.video_path):
-        
-        if verify_extension(get_file_extension(file)):
-            if os.path.isfile(os.path.join(settings.video_path, file)):
-                movies_list.append(file)
+    paths=[]
+
+    for root, dirs, files in os.walk(video_path):
+        for file in files:
+            # TODO: CHECK IF THE FILETYPE IS A MOVIE FILE
+            # TODO: Create list of video file extentions in settings to check in different spots (like this one)
+            # TODO: remove paths and append to movies_list
+            if file.lower().endswith(filetype.lower()):
+                paths.append(os.path.join(root,file))
+
     
     return movies_list
 
@@ -61,6 +68,13 @@ def get_name_text(file):
 
 def generate_title(text):
     return TextClip(txt=text, fontsize=30, color="white", stroke_color="black", stroke_width=12)
+
+def clip_dir_cleanup():
+    if not os.path.exists(settings.clip_path):
+        pass
+    # TODO: if clip path does not exist, create it. figure out proper permissions.
+    # TODO: Organize clips by movie file (create folder with file title and put clips in them.)
+    # TODO: Append date clipped to file name
 
 def clip_random_movie(movies):
     '''
@@ -125,19 +139,3 @@ def concat_clips():
     final_clip = concatenate_videoclips(clip_list, method="compose")
     final_clip.write_videofile("concat.mp4")
 
-
-# Actual execution
-
-# get movies list
-# movies = get_video_files(video_path=settings.video_path)
-
-
-# Create clips
-# while count < settings.number_of_clips:
-#     clip_random_movie(movies)
-
-# add titles to clips
-# title_clips()
-
-# F R A N K E N M O V I E
-# concat_clips(clips_folder=settings.clip_path)
