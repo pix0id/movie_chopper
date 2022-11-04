@@ -17,43 +17,39 @@ def get_file_extension(file):
     ext = split_name[-1]
     return ext
 
-def verify_extension(ext):
-    if ext == "avi" or ext == "mp4" or ext == "mkv":
-        return True
-    else:
-        return False
-
-def get_clip_count():
-    clip_count = 0
-
-    for file in os.scandir(settings.clip_path):
-        if os.path.isfile(os.path.join(settings.clip_path, file)):
-            clip_count += 1
-    return clip_count
-
-def get_video_files(video_path):
+def get_video_files(path):
     '''
         Generates list of videos from specified video path.
         Does not work with nested directories.
         Make sure the videos are the ONLY thing in the directory. ALL FILES are added to the list currently.
-        TODO:
-            - Make work with nested directories
     '''
-    movies_list = []
-
     paths=[]
+    directories=[]
 
-    for root, dirs, files in os.walk(video_path):
-        for file in files:
-            # TODO: CHECK IF THE FILETYPE IS A MOVIE FILE
-            # TODO: Create list of video file extentions in settings to check in different spots (like this one)
-            # TODO: remove paths and append to movies_list
-            if file.lower().endswith(filetype.lower()):
-                paths.append(os.path.join(root,file))
+    for root, dirs, files in os.walk(path):
+        for _dir in dirs:
+            directories.append(_dir)
 
-    
-    return movies_list
+        for _file in files:
+            filetype = get_file_extension(_file)
+            if filetype in settings.FILE_TYPES:
+                paths.append(os.path.join(root,_file))
 
+    return paths
+
+def verify_extension(ext):
+    if ext in settings.FILE_TYPES:
+        return True
+
+    return False
+
+def get_clip_count():
+    clip_count = 0
+
+    for file in os.scandir(settings.CLIP_PATH):
+        if os.path.isfile(os.path.join(settings.CLIP_PATH, file)):
+            clip_count += 1
+    return clip_count
 
 def set_clip_buffer(video_length, clip_length):
     '''
@@ -69,12 +65,12 @@ def get_name_text(file):
 def generate_title(text):
     return TextClip(txt=text, fontsize=30, color="white", stroke_color="black", stroke_width=12)
 
-def clip_dir_cleanup():
-    if not os.path.exists(settings.clip_path):
-        pass
-    # TODO: if clip path does not exist, create it. figure out proper permissions.
-    # TODO: Organize clips by movie file (create folder with file title and put clips in them.)
-    # TODO: Append date clipped to file name
+def clip_dir_check():
+    '''
+        If the settings.CLIP_PATH directory does not exist, create it.
+    '''
+    if not os.path.isdir(settings.CLIP_PATH):
+        os.mkdir(settings.CLIP_PATH)
 
 def clip_random_movie(movies):
     '''
@@ -93,13 +89,13 @@ def clip_random_movie(movies):
         count += 1
         touched_movies.append(current_movie_file)
 
-        current_movie = VideoFileClip(f"{settings['video_path']}{current_movie_file}")
+        current_movie = VideoFileClip(f"{settings.VIDEO_PATH}{current_movie_file}")
         movie_length = math.floor(current_movie.duration)
        
-        start_index = random.randint(0, set_clip_buffer(movie_length, settings["length"]))
+        start_index = random.randint(0, set_clip_buffer(movie_length, settings.LENGTH))
         
-        clip = current_movie.subclip(start_index, start_index+settings["length"])
-        clip.write_videofile(f"{settings['clip_path']}{count}_{movie_name[0]}.mp4",codec="libx264")
+        clip = current_movie.subclip(start_index, start_index+settings.LENGTH)
+        clip.write_videofile(f"{settings.CLIP_PATH}{count}_{movie_name[0]}.mp4",codec="libx264")
 
         clip.close()
     else:
@@ -114,10 +110,10 @@ def clip_random_movie(movies):
             touched_movies = []
 
 def title_clips():
-    clips = get_video_files(video_path=settings.clip_path)
+    clips = get_video_files(video_path=settings.CLIP_PATH)
     
     for clip in clips:
-        video = VideoFileClip(f"{settings.clip_path}{clip}", audio=True)
+        video = VideoFileClip(f"{settings.CLIP_PATH}{clip}", audio=True)
         title = get_name_text(clip)
         w,h = moviesize = video.size
         clip_count = title[0]
@@ -129,11 +125,11 @@ def title_clips():
         final.subclip(0,settings["length"]).write_videofile(f"{generate_title(title[1])}_titled.mp4",codec="libx264")
 
 def concat_clips():
-    clips = get_video_files(video_path=settings.clip_path)
+    clips = get_video_files(video_path=settings.CLIP_PATH)
     clip_list = []
 
     for clip in clips:
-        clip_file = VideoFileClip(f"{settings.clip_path}{clip}")
+        clip_file = VideoFileClip(f"{settings.CLIP_PATH}{clip}")
         clip_list.append(clip_file)
     
     final_clip = concatenate_videoclips(clip_list, method="compose")

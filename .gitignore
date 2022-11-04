@@ -11,4 +11,5 @@ movies/clips/*.avi
 movies/clips/*.mp4
 movies/clips/*.mkv
 movies/clips/*.wav
+*.pyc
 __pycache__

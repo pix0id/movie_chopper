@@ -19,7 +19,7 @@ count = 0
 # F R A N K E N M O V I E
 # fm.concat_clips(clips_folder=settings.clip_path)
 
-def list_files(path, filetype):
+def find_files(path):
     paths=[]
     directories=[]
 
@@ -27,9 +27,10 @@ def list_files(path, filetype):
         for _dir in dirs:
             directories.append(_dir)
         for file in files:
-            if file.lower().endswith(filetype.lower()):
+            filetype = file.lower().split('.')
+            if filetype[-1] in settings.FILE_TYPES:
                 paths.append(os.path.join(root,file))
 
-    return directories
+    return paths
 
-print(list_files("testing/", ".txt"))
+print(list_files("movies/"))
