@@ -13,14 +13,7 @@ Created using [MoviePy](https://zulko.github.io/moviepy/index.html)
 5. Run the script and the movie magic will happen.
 
 
-## Command line arguments:
-| Short Arg  | Long Arg | Default | Description |
-| ------------- | ------------- | ------------- | ------------- |
-| -l  | --length  | 1 (int only) | Clip duration in whole minutes |
-| -n  | --num | 1 (int) | Number of clips to create |
-| -p  | --path | "movies/" | Movie Folder Path |
-| -c  | --clips | "movies/clips" | Folder for clip output |
-_cli arguments will be made invalid in future update!_
+No longer need to add CLI arguments! Change settings in the settings.py file to augment your experience!!
 
 ## Moviepy codecs:
 | Codec  | Extension | Description |
@@ -33,7 +26,7 @@ _cli arguments will be made invalid in future update!_
 | `libvpx`  | `.webm` | is tiny a video format well indicated for web videos (with HTML5). Open source. |
 
 ## TODO:
-1. Add support for choosing codec
-2. Add support for files in directories
-3. Ignore non video/image/audio files.
+
+1. either clean out the clips folder or start clip file count at last index from clips folder (i.e. if you have 10 clips already, start at 11.).
+2. add number counter/movie title to one of the corners.
 

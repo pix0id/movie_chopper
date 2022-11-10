@@ -2,46 +2,51 @@ from moviepy.editor import *
 import os
 import math
 import random
-import argparse
+import settings
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-l", "--length", dest="length", default="1", help="Clip duration in whole minutes")
-parser.add_argument("-n", "--num", dest="number_of_clips", default="1", help="Number of clips to create")
-parser.add_argument("-p", "--path", dest="movie_path", default="movies/", help="Movie Folder Path (Only have videos, no subdirectoies.")
-parser.add_argument("-c", "--clips", dest="clip_path", default="movies/clips/", help="Folder for clip output")
 
-args = parser.parse_args()
-
-# Path variables
-movie_path = args.movie_path
-clip_path = args.clip_path
-
-# Timing variables
-length_in_seconds = 60*int(args.length)
 
 # Logic variables
-number_of_clips = int(args.number_of_clips)
 touched_movies = []
 count = 0
 
-def get_movies(movie_path):
-        # FIXME: Only return video files! Check moviepy documentation for list of file types accepted.
-        # TODO: name everything more "general" can be confusing since it's being used for clips and movies.
+# TODO: combine get_file_extension and get_name_text, they do basically the same damn thing.
+# TODO: Or, combine get_file extension and verify_file_extension.. Strings = True in python so it wouldn't be too far fetched..
+
+
+def get_file_extension(file):
+    split_name = file.split('.')
+    ext = split_name[-1]
+    return ext
+
+def get_video_files(path):
     '''
         Generates list of videos from specified video path.
         Does not work with nested directories.
         Make sure the videos are the ONLY thing in the directory. ALL FILES are added to the list currently.
-        TODO:
-            - Make work with nested directories
-            - specify accepted video types
     '''
-    movies_list = []
+    paths=[]
+    directories=[]
 
-    for file in os.listdir(movie_path):
-        if os.path.isfile(os.path.join(movie_path, file)):
-            movies_list.append(file)
-    
-    return movies_list
+    for root, dirs, files in os.walk(path):
+        for _dir in dirs:
+            directories.append(_dir)
+
+        for _file in files:
+            filetype = get_file_extension(_file)
+            if filetype in settings.FILE_TYPES:
+                paths.append(os.path.join(root,_file))
+
+    return paths
+
+def verify_extension(ext):
+    '''
+    Verify if file extension is in the settings.FILE_TYPES list. Modify in settings.py
+    '''
+    if ext in settings.FILE_TYPES:
+        return True
+
+    return False
 
 
 def set_clip_buffer(video_length, clip_length):
@@ -50,6 +55,20 @@ def set_clip_buffer(video_length, clip_length):
     '''
     return video_length - clip_length
 
+def get_name_text(file):
+    file_name = file.split('.')
+    video_name = file_name[0].split('_')
+    return video_name
+
+def generate_title(text):
+    return TextClip(txt=text, fontsize=30, color="white", stroke_color="black", stroke_width=12)
+
+def clip_dir_check():
+    '''
+        If the settings.CLIP_PATH directory does not exist, create it.
+    '''
+    if not os.path.isdir(settings.CLIP_PATH):
+        os.mkdir(settings.CLIP_PATH)
 
 def clip_random_movie(movies):
     '''
@@ -61,19 +80,20 @@ def clip_random_movie(movies):
 
     global touched_movies
     global count
-    current_movie_name = random.choice(movies)
+    current_movie_file = random.choice(movies)
+    movie_name = get_name_text(current_movie_file)
     
-    if current_movie_name not in touched_movies:
+    if current_movie_file not in touched_movies:
         count += 1
-        touched_movies.append(current_movie_name)
+        touched_movies.append(current_movie_file)
 
-        current_movie = VideoFileClip(f"{movie_path}{current_movie_name}")
+        current_movie = VideoFileClip(f"{settings.VIDEO_PATH}{current_movie_file}")
         movie_length = math.floor(current_movie.duration)
+       
+        start_index = random.randint(0, set_clip_buffer(movie_length, settings.LENGTH))
         
-        start_index = random.randint(0, set_clip_buffer(movie_length, length_in_seconds))
-        
-        clip = current_movie.subclip(start_index, start_index+length_in_seconds)
-        clip.write_videofile(f"{clip_path}{count}.mp4",codec="libx264")
+        clip = current_movie.subclip(start_index, start_index+settings.LENGTH)
+        clip.write_videofile(f"{settings.CLIP_PATH}{count}_{movie_name[0]}.mp4",codec=settings.CODEC)
 
         clip.close()
     else:
@@ -87,27 +107,39 @@ def clip_random_movie(movies):
         if movies == touched_movies:
             touched_movies = []
 
+def title_clips():
+    '''
+    Generate a title for the video clip.
+    Title is grabbed from the file name.
+    currently, the names are not trimmed or cleaned, so if it is titled
+    "The_Shining.mp4" the title preview will show "The_Shining"
+    '''
+    clips = get_video_files(video_path=settings.CLIP_PATH)
+    
+    for clip in clips:
+        video = VideoFileClip(f"{settings.CLIP_PATH}{clip}", audio=True)
+        title = get_name_text(clip)
+        w,h = moviesize = video.size
+        clip_count = title[0]
+        video_title = generate_title(title[1])
 
-def concat_clips(clips_folder):
-    clips = get_movies(movie_path=clip_path)
+        txt_mov = video_title.set_pos( lambda t: (max(w/30,int(w-0.5*w*t)),max(5*h/6,int(100*t))) )
+
+        final = CompositeVideoClip([video,txt_mov])
+        final.subclip(0,settings["length"]).write_videofile(f"{generate_title(title[1])}_titled.mp4",codec="libx264")
+
+def concat_clips():
+    '''
+    Concatenate video clips together.
+    TODO: Add transitions (As well as custom start and end clips)
+    '''
+    clips = get_video_files(video_path=settings.CLIP_PATH)
     clip_list = []
 
     for clip in clips:
-        clip_file = VideoFileClip(f"{clip_path}{clip}")
+        clip_file = VideoFileClip(f"{settings.CLIP_PATH}{clip}")
         clip_list.append(clip_file)
     
     final_clip = concatenate_videoclips(clip_list, method="compose")
     final_clip.write_videofile("concat.mp4")
 
-
-# Actual execution
-
-# get movies list
-movies = get_movies(movie_path=movie_path)
-
-# Create clips
-while count < number_of_clips:
-    clip_random_movie(movies)
-
-# F R A N K E N M O V I E
-concat_clips(clips_folder=clip_path)
