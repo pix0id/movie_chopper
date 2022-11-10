@@ -10,6 +10,8 @@ import settings
 touched_movies = []
 count = 0
 
+# TODO: combine get_file_extension and get_name_text, they do basically the same damn thing.
+# TODO: Or, combine get_file extension and verify_file_extension.. Strings = True in python so it wouldn't be too far fetched..
 
 
 def get_file_extension(file):
@@ -38,18 +40,14 @@ def get_video_files(path):
     return paths
 
 def verify_extension(ext):
+    '''
+    Verify if file extension is in the settings.FILE_TYPES list. Modify in settings.py
+    '''
     if ext in settings.FILE_TYPES:
         return True
 
     return False
 
-def get_clip_count():
-    clip_count = 0
-
-    for file in os.scandir(settings.CLIP_PATH):
-        if os.path.isfile(os.path.join(settings.CLIP_PATH, file)):
-            clip_count += 1
-    return clip_count
 
 def set_clip_buffer(video_length, clip_length):
     '''
@@ -110,6 +108,12 @@ def clip_random_movie(movies):
             touched_movies = []
 
 def title_clips():
+    '''
+    Generate a title for the video clip.
+    Title is grabbed from the file name.
+    currently, the names are not trimmed or cleaned, so if it is titled
+    "The_Shining.mp4" the title preview will show "The_Shining"
+    '''
     clips = get_video_files(video_path=settings.CLIP_PATH)
     
     for clip in clips:
@@ -125,6 +129,10 @@ def title_clips():
         final.subclip(0,settings["length"]).write_videofile(f"{generate_title(title[1])}_titled.mp4",codec="libx264")
 
 def concat_clips():
+    '''
+    Concatenate video clips together.
+    TODO: Add transitions (As well as custom start and end clips)
+    '''
     clips = get_video_files(video_path=settings.CLIP_PATH)
     clip_list = []
 
