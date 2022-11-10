@@ -2,7 +2,7 @@ import os
 import movie_chopper as mc
 import franken_movie as fm
 import settings
-
+# do we need this?
 count = 0
 
 # get movies list

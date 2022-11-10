@@ -93,7 +93,7 @@ def clip_random_movie(movies):
         start_index = random.randint(0, set_clip_buffer(movie_length, settings.LENGTH))
         
         clip = current_movie.subclip(start_index, start_index+settings.LENGTH)
-        clip.write_videofile(f"{settings.CLIP_PATH}{count}_{movie_name[0]}.mp4",codec="libx264")
+        clip.write_videofile(f"{settings.CLIP_PATH}{count}_{movie_name[0]}.mp4",codec=settings.CODEC)
 
         clip.close()
     else:
