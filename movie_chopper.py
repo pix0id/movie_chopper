@@ -2,8 +2,7 @@ from moviepy.editor import *
 import os
 import math
 import random
-import settings
-
+from settings import *
 
 
 # Logic variables
@@ -34,16 +33,16 @@ def get_video_files(path):
 
         for _file in files:
             filetype = get_file_extension(_file)
-            if filetype in settings.FILE_TYPES:
+            if filetype in FILE_TYPES:
                 paths.append(os.path.join(root,_file))
 
     return paths
 
 def verify_extension(ext):
     '''
-    Verify if file extension is in the settings.FILE_TYPES list. Modify in settings.py
+    Verify if file extension is in the FILE_TYPES list. Modify in settings.py
     '''
-    if ext in settings.FILE_TYPES:
+    if ext in FILE_TYPES:
         return True
 
     return False
@@ -65,10 +64,10 @@ def generate_title(text):
 
 def clip_dir_check():
     '''
-        If the settings.CLIP_PATH directory does not exist, create it.
+        If the CLIP_PATH directory does not exist, create it.
     '''
-    if not os.path.isdir(settings.CLIP_PATH):
-        os.mkdir(settings.CLIP_PATH)
+    if not os.path.isdir(CLIP_PATH):
+        os.mkdir(CLIP_PATH)
 
 def clip_random_movie(movies):
     '''
@@ -87,13 +86,13 @@ def clip_random_movie(movies):
         count += 1
         touched_movies.append(current_movie_file)
 
-        current_movie = VideoFileClip(f"{settings.VIDEO_PATH}{current_movie_file}")
+        current_movie = VideoFileClip(f"{VIDEO_PATH}{current_movie_file}")
         movie_length = math.floor(current_movie.duration)
        
-        start_index = random.randint(0, set_clip_buffer(movie_length, settings.LENGTH))
+        start_index = random.randint(0, set_clip_buffer(movie_length, LENGTH))
         
-        clip = current_movie.subclip(start_index, start_index+settings.LENGTH)
-        clip.write_videofile(f"{settings.CLIP_PATH}{count}_{movie_name[0]}.mp4",codec=settings.CODEC)
+        clip = current_movie.subclip(start_index, start_index+LENGTH)
+        clip.write_videofile(f"{CLIP_PATH}{count}_{movie_name[0]}.mp4",codec=CODEC)
 
         clip.close()
     else:
@@ -114,10 +113,10 @@ def title_clips():
     currently, the names are not trimmed or cleaned, so if it is titled
     "The_Shining.mp4" the title preview will show "The_Shining"
     '''
-    clips = get_video_files(video_path=settings.CLIP_PATH)
+    clips = get_video_files(video_path=CLIP_PATH)
     
     for clip in clips:
-        video = VideoFileClip(f"{settings.CLIP_PATH}{clip}", audio=True)
+        video = VideoFileClip(f"{CLIP_PATH}{clip}", audio=True)
         title = get_name_text(clip)
         w,h = moviesize = video.size
         clip_count = title[0]
@@ -126,18 +125,18 @@ def title_clips():
         txt_mov = video_title.set_pos( lambda t: (max(w/30,int(w-0.5*w*t)),max(5*h/6,int(100*t))) )
 
         final = CompositeVideoClip([video,txt_mov])
-        final.subclip(0,settings["length"]).write_videofile(f"{generate_title(title[1])}_titled.mp4",codec="libx264")
+        final.subclip(0,LENGTH).write_videofile(f"{generate_title(title[1])}_titled.mp4",codec="libx264")
 
 def concat_clips():
     '''
     Concatenate video clips together.
     TODO: Add transitions (As well as custom start and end clips)
     '''
-    clips = get_video_files(video_path=settings.CLIP_PATH)
+    clips = get_video_files(video_path=CLIP_PATH)
     clip_list = []
 
     for clip in clips:
-        clip_file = VideoFileClip(f"{settings.CLIP_PATH}{clip}")
+        clip_file = VideoFileClip(f"{CLIP_PATH}{clip}")
         clip_list.append(clip_file)
     
     final_clip = concatenate_videoclips(clip_list, method="compose")
