@@ -4,6 +4,7 @@ import math
 import random
 from settings import *
 
+# TODO: Project wide - look into type safety and add types to all scripts.
 
 # Logic variables
 touched_movies = []
@@ -130,15 +131,19 @@ def title_clips():
 def concat_clips():
     '''
     Concatenate video clips together.
-    TODO: Add transitions (As well as custom start and end clips)
+    TODO: Add transitions
     '''
     clips = get_video_files(video_path=CLIP_PATH)
+    
     clip_list = []
-
+    
     for clip in clips:
         clip_file = VideoFileClip(f"{CLIP_PATH}{clip}")
         clip_list.append(clip_file)
-    
+    # TODO: Add starting and end clips to of clip_list after loop runs
+
+    # TODO: Add transitions
+    # TODO: Experiment with different methods. Add as a constant.
     final_clip = concatenate_videoclips(clip_list, method="compose")
     final_clip.write_videofile("concat.mp4")
 
