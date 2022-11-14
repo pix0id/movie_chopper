@@ -39,7 +39,7 @@ def get_video_files(path):
 
         for _file in files:
             filetype = get_file_extension(_file)
-            if filetype in FILE_TYPES:
+            if filetype:
                 paths.append(os.path.join(root,_file))
 
     for video in paths:
