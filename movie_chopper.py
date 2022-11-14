@@ -127,6 +127,7 @@ def title_clips():
         final = CompositeVideoClip([video,txt_mov])
         final.subclip(0,LENGTH).write_videofile(f"{generate_title(title[1])}_titled.mp4",codec="libx264")
 
+# remove because of frankenmovie!!
 def concat_clips():
     '''
     Concatenate video clips together.
