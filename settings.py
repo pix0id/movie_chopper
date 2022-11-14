@@ -9,6 +9,7 @@
     TRANSITION          -- Clip that will be played between two videos.
     CLOSING_TRANSITION  -- Clip that will be played at the end of the concatenated video.
     CODEC               -- Video codec clips will save out as. List of available codecs in README.md
+    METHOD              -- concatenation method. (default) "compose" Other value: 
     FILE_TYPES          -- File types movie_chopper will accept for chopping.
 
 '''
@@ -21,6 +22,7 @@ OPENING_TRANSITION = ""
 TRANSITION = ""
 CLOSING_TRANSITION = ""
 CODEC = "libx264"
+METHOD = "compose"
 FILE_TYPES = [
     'avi',
     'mkv',

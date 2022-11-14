@@ -11,13 +11,17 @@ touched_movies = []
 count = 0
 
 # TODO: combine get_file_extension and get_name_text, they do basically the same damn thing.
-# TODO: Or, combine get_file extension and verify_file_extension.. Strings = True in python so it wouldn't be too far fetched..
+# TODO: Or, combine get_file_extension and verify_file_extension.. Strings = True in python so it wouldn't be too far fetched..
 
 
 def get_file_extension(file):
     split_name = file.split('.')
     ext = split_name[-1]
-    return ext
+    
+    if ext in FILE_TYPES:
+        return ext
+    
+    return False
 
 def get_video_files(path):
     '''
@@ -26,6 +30,7 @@ def get_video_files(path):
         Make sure the videos are the ONLY thing in the directory. ALL FILES are added to the list currently.
     '''
     paths=[]
+    open_videos=[]
     directories=[]
 
     for root, dirs, files in os.walk(path):
@@ -37,7 +42,10 @@ def get_video_files(path):
             if filetype in FILE_TYPES:
                 paths.append(os.path.join(root,_file))
 
-    return paths
+    for video in paths:
+        open_videos.append(VideoFileClip(video), audio=True)
+
+    return open_videos
 
 def verify_extension(ext):
     '''
@@ -117,15 +125,14 @@ def title_clips():
     clips = get_video_files(video_path=CLIP_PATH)
     
     for clip in clips:
-        video = VideoFileClip(f"{CLIP_PATH}{clip}", audio=True)
         title = get_name_text(clip)
-        w,h = moviesize = video.size
+        w,h = moviesize = clip.size
         clip_count = title[0]
         video_title = generate_title(title[1])
 
         txt_mov = video_title.set_pos( lambda t: (max(w/30,int(w-0.5*w*t)),max(5*h/6,int(100*t))) )
 
-        final = CompositeVideoClip([video,txt_mov])
+        final = CompositeVideoClip([clip,txt_mov])
         final.subclip(0,LENGTH).write_videofile(f"{generate_title(title[1])}_titled.mp4",codec="libx264")
 
 def concat_clips():
@@ -135,15 +142,10 @@ def concat_clips():
     '''
     clips = get_video_files(video_path=CLIP_PATH)
     
-    clip_list = []
-    
-    for clip in clips:
-        clip_file = VideoFileClip(f"{CLIP_PATH}{clip}")
-        clip_list.append(clip_file)
     # TODO: Add starting and end clips to of clip_list after loop runs
 
     # TODO: Add transitions
     # TODO: Experiment with different methods. Add as a constant.
-    final_clip = concatenate_videoclips(clip_list, method="compose")
+    final_clip = concatenate_videoclips(clips, method=METHOD)
     final_clip.write_videofile("concat.mp4")
 
