@@ -10,18 +10,6 @@ from settings import *
 touched_movies = []
 count = 0
 
-# TODO: combine get_file_extension and get_name_text, they do basically the same damn thing.
-# TODO: Or, combine get_file_extension and verify_file_extension.. Strings = True in python so it wouldn't be too far fetched..
-
-
-def get_file_extension(file):
-    split_name = file.split('.')
-    ext = split_name[-1]
-    
-    if ext in FILE_TYPES:
-        return ext
-    
-    return False
 
 def get_video_files(path):
     '''
@@ -43,9 +31,18 @@ def get_video_files(path):
                 paths.append(os.path.join(root,_file))
 
     for video in paths:
-        open_videos.append(VideoFileClip(video), audio=True)
+        open_videos.append(VideoFileClip(video, audio=True))
 
     return open_videos
+
+def get_file_extension(file):
+    split_name = file.split('.')
+    ext = split_name[-1]
+    
+    if ext in FILE_TYPES:
+        return ext
+    
+    return False
 
 def verify_extension(ext):
     '''
@@ -64,7 +61,7 @@ def set_clip_buffer(video_length, clip_length):
     return video_length - clip_length
 
 def get_name_text(file):
-    file_name = file.split('.')
+    file_name = os.path.basename(file).split('.')
     video_name = file_name[0].split('_')
     return video_name
 
@@ -89,18 +86,17 @@ def clip_random_movie(movies):
     global touched_movies
     global count
     current_movie_file = random.choice(movies)
-    movie_name = get_name_text(current_movie_file)
+    movie_name = get_name_text(current_movie_file.filename)
     
     if current_movie_file not in touched_movies:
         count += 1
         touched_movies.append(current_movie_file)
 
-        current_movie = VideoFileClip(f"{VIDEO_PATH}{current_movie_file}")
-        movie_length = math.floor(current_movie.duration)
+        movie_length = math.floor(current_movie_file.duration)
        
         start_index = random.randint(0, set_clip_buffer(movie_length, LENGTH))
         
-        clip = current_movie.subclip(start_index, start_index+LENGTH)
+        clip = current_movie_file.subclip(start_index, start_index+LENGTH)
         clip.write_videofile(f"{CLIP_PATH}{count}_{movie_name[0]}.mp4",codec=CODEC)
 
         clip.close()
@@ -125,7 +121,7 @@ def title_clips():
     clips = get_video_files(video_path=CLIP_PATH)
     
     for clip in clips:
-        title = get_name_text(clip)
+        title = get_name_text(clip.filename)
         w,h = moviesize = clip.size
         clip_count = title[0]
         video_title = generate_title(title[1])
@@ -134,18 +130,3 @@ def title_clips():
 
         final = CompositeVideoClip([clip,txt_mov])
         final.subclip(0,LENGTH).write_videofile(f"{generate_title(title[1])}_titled.mp4",codec="libx264")
-
-def concat_clips():
-    '''
-    Concatenate video clips together.
-    TODO: Add transitions
-    '''
-    clips = get_video_files(video_path=CLIP_PATH)
-    
-    # TODO: Add starting and end clips to of clip_list after loop runs
-
-    # TODO: Add transitions
-    # TODO: Experiment with different methods. Add as a constant.
-    final_clip = concatenate_videoclips(clips, method=METHOD)
-    final_clip.write_videofile("concat.mp4")
-
