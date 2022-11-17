@@ -8,6 +8,10 @@ import movie_chopper as mc
 
 def concat_clips(video_folder):
     clips = mc.get_video_files(video_folder)
-    
-    final_clip = concatenate_videoclips(clips, method="compose")
+    clips_list = []
+
+    for clip in clips:
+        clips_list.append(VideoFileClip(clip))
+
+    final_clip = concatenate_videoclips(clips_list, method="compose")
     final_clip.write_videofile("concat.mp4")
