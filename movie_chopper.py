@@ -18,7 +18,6 @@ def get_video_files(path):
         Make sure the videos are the ONLY thing in the directory. ALL FILES are added to the list currently.
     '''
     paths=[]
-    open_videos=[]
     directories=[]
 
     for root, dirs, files in os.walk(path):
@@ -30,10 +29,7 @@ def get_video_files(path):
             if filetype in FILE_TYPES:
                 paths.append(os.path.join(root,_file))
 
-    for video in paths:
-        open_videos.append(VideoFileClip(video, audio=True))
-
-    return open_videos
+    return paths
 
 def get_file_extension(file):
     split_name = file.split('.')
@@ -52,7 +48,6 @@ def verify_extension(ext):
         return True
 
     return False
-
 
 def set_clip_buffer(video_length, clip_length):
     '''
@@ -85,13 +80,15 @@ def clip_random_movie(movies):
 
     global touched_movies
     global count
-    current_movie_file = random.choice(movies)
-    movie_name = get_name_text(current_movie_file.filename)
+    current_movie = random.choice(movies)
     
-    if current_movie_file not in touched_movies:
+    
+    if current_movie not in touched_movies:
         count += 1
-        touched_movies.append(current_movie_file)
 
+        current_movie_file = VideoFileClip(current_movie)
+        touched_movies.append(current_movie)
+        movie_name = get_name_text(current_movie_file.filename)
         movie_length = math.floor(current_movie_file.duration)
        
         start_index = random.randint(0, set_clip_buffer(movie_length, LENGTH))
