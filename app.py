@@ -2,7 +2,9 @@ import os
 import movie_chopper as mc
 import franken_movie as fm
 from settings import *
-# do we need this?
+
+# TODO: Ask for concat name before clipping starts.
+
 count = 0
 
 # get movies list
@@ -15,6 +17,6 @@ while count < NUMBER_OF_CLIPS:
     count += 1
     mc.clip_random_movie(movies)
     
-
+#TODO: Set default name OR name given above.
 # F R A N K E N M O V I E
 fm.concat_clips(video_folder=CLIP_PATH)
