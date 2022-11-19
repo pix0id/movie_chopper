@@ -4,8 +4,6 @@ import math
 import random
 from settings import *
 
-# TODO: Project wide - look into type safety and add types to all scripts.
-
 # Logic variables
 touched_movies = []
 count = 0
@@ -127,3 +125,8 @@ def title_clips():
 
         final = CompositeVideoClip([clip,txt_mov])
         final.subclip(0,LENGTH).write_videofile(f"{generate_title(title[1])}_titled.mp4",codec="libx264")
+
+if __name__ == "__main__":
+    print("Run the app.py script.")
+    print("Change preferences in settings.py")
+    print("Leave me alone.")
