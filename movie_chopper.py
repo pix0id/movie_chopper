@@ -25,33 +25,37 @@ def clip_random_movie(movies):
 
     global touched_movies
     global count
-    current_movie = random.choice(movies)
-    
-    
-    if current_movie not in touched_movies:
-        count += 1
-
-        current_movie_file = VideoFileClip(current_movie)
-        touched_movies.append(current_movie)
-        movie_name = get_name_text(current_movie_file.filename)
-        movie_length = math.floor(current_movie_file.duration)
-       
-        start_index = random.randint(0, movie_length-LENGTH)
+    try:
+        current_movie = random.choice(movies)
         
-        clip = current_movie_file.subclip(start_index, start_index+LENGTH)
-        clip.write_videofile(f"{CLIP_PATH}{count}_{movie_name[0]}.mp4",codec=CODEC)
+        
+        if current_movie not in touched_movies:
+            count += 1
 
-        clip.close()
-    else:
-        '''
-        Sort lists and check if they're the same. 
-        If so, empty touched_movies and start chopping again
-        '''
-        movies.sort()
-        touched_movies.sort()
+            current_movie_file = VideoFileClip(current_movie)
+            touched_movies.append(current_movie)
+            movie_name = get_name_text(current_movie_file.filename)
+            movie_length = math.floor(current_movie_file.duration)
+        
+            start_index = random.randint(0, movie_length-LENGTH)
+            
+            clip = current_movie_file.subclip(start_index, start_index+LENGTH)
+            clip.write_videofile(f"{CLIP_PATH}{count}_{movie_name[0]}.mp4",codec=CODEC)
 
-        if movies == touched_movies:
-            touched_movies = []
+            clip.close()
+        else:
+            '''
+            Sort lists and check if they're the same. 
+            If so, empty touched_movies and start chopping again
+            '''
+            movies.sort()
+            touched_movies.sort()
+
+            if movies == touched_movies:
+                touched_movies = []
+    except Exception as e:
+        print("ERROR DURING CLIPPING")
+        print(e)
 
 if __name__ == "__main__":
     print("Run the app.py script.")
