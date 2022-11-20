@@ -1,10 +1,10 @@
 from moviepy.editor import concatenate_videoclips, VideoFileClip
 from settings import *
 from utils import clip_cleanup, audio_cleanup
-import movie_chopper as mc
+from utils import get_video_files
 
 def concat_clips(video_folder):
-    clips = mc.get_video_files(video_folder)
+    clips = get_video_files(video_folder)
     clips_list = []
 
     for clip in clips:

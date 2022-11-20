@@ -1,13 +1,13 @@
-import os
+from utils import get_video_files
 import movie_chopper as mc
 import franken_movie as fm
 from settings import *
 from utils import dir_check
 
 count = 0
-movies = mc.get_video_files(path=VIDEO_PATH)
+movies = get_video_files(path=VIDEO_PATH)
 
-print("Creating required directories....")
+print("Checking for required directories....")
 dir_check(CLIP_PATH)
 dir_check(CONCAT_PATH)
 
