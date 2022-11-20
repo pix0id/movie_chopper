@@ -1,5 +1,6 @@
-from moviepy.editor import *
+from moviepy.editor import concatenate_videoclips, VideoFileClip
 from settings import *
+from utils import clip_cleanup, audio_cleanup
 import movie_chopper as mc
 
 def concat_clips(video_folder):
@@ -23,23 +24,28 @@ def concat_clips(video_folder):
         )
 
 
+    try:
+        if (ENABLE_OPENING_TRANSITION or ENABLE_ENDING_TRANSITION) and ENABLE_TRANSITIONS:
+            bookends = []
+            if ENABLE_OPENING_TRANSITION:
+                bookends.append(VideoFileClip(OPENING_TRANSITION))
 
-    if (ENABLE_OPENING_TRANSITION or ENABLE_ENDING_TRANSITION) and ENABLE_TRANSITIONS:
-        bookends = []
-        if ENABLE_OPENING_TRANSITION:
-            bookends.append(VideoFileClip(OPENING_TRANSITION))
+            bookends.append(final_clip)
 
-        bookends.append(final_clip)
+            if ENABLE_ENDING_TRANSITION:
+                bookends.append(VideoFileClip(ENDING_TRANSITION))
 
-        if ENABLE_ENDING_TRANSITION:
-            bookends.append(VideoFileClip(ENDING_TRANSITION))
+            new_final = concatenate_videoclips(bookends,method="compose")
 
-        new_final = concatenate_videoclips(bookends,method="compose")
-
-        new_final.write_videofile("concat.mp4")
-    else:
-        final_clip.write_videofile("concat.mp4")
-
+            new_final.write_videofile("concat.mp4")
+        else:
+            final_clip.write_videofile("concat.mp4")
+    except Exception:
+        print(f"ERROR CONCATENATING FILES: {Exception}")
+    finally:
+        print("Cleaning up files....")
+        clip_cleanup()
+        audio_cleanup()
 
 if __name__ == "__main__":
     print("Run the app.py script.")
