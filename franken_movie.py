@@ -2,11 +2,6 @@ from moviepy.editor import *
 from settings import *
 import movie_chopper as mc
 
-
-# TODO: Count up concat file name so multiple can exist in directory
-# TODO: Create folder for final concats.
-# TODO: Clip folder cleanup
-
 def concat_clips(video_folder):
     clips = mc.get_video_files(video_folder)
     clips_list = []
