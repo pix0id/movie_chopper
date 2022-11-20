@@ -17,14 +17,13 @@ def concat_clips(video_folder):
     ================================
     '''
     )
-    final_clip = concatenate_videoclips(
-        clips_list,
-        transition=VideoFileClip(TRANSITION) if ENABLE_TRANSITIONS else None,
-        method="compose"
-        )
-
-
     try:
+        final_clip = concatenate_videoclips(
+            clips_list,
+            transition=VideoFileClip(TRANSITION) if ENABLE_TRANSITIONS else None,
+            method="compose"
+            )
+
         if (ENABLE_OPENING_TRANSITION or ENABLE_ENDING_TRANSITION) and ENABLE_TRANSITIONS:
             bookends = []
             if ENABLE_OPENING_TRANSITION:
@@ -40,12 +39,13 @@ def concat_clips(video_folder):
             new_final.write_videofile("concat.mp4")
         else:
             final_clip.write_videofile("concat.mp4")
-    except Exception:
-        print(f"ERROR CONCATENATING FILES: {Exception}")
+    except OSError as ose:
+        print(f"OSERROR CONCATENATING FILES: {ose}")
     finally:
-        print("Cleaning up files....")
-        clip_cleanup()
-        audio_cleanup()
+        if CLEANUP_CLIPS:
+            print("Cleaning up files....")
+            clip_cleanup()
+            audio_cleanup()
 
 if __name__ == "__main__":
     print("Run the app.py script.")
