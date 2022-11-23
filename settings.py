@@ -1,4 +1,4 @@
-'''
+"""
     SETTINGS -
     LENGTH                      -- Length of clips in seconds.
     MAX_VIDEOS                  -- Maximum number of videos to get from the folder. 0 = unlimited (default)
@@ -15,10 +15,12 @@
     ENDING_TRANSITION           -- Clip that will be played at the end of the concatenated video.
     CLEANUP_CLIPS               -- Boolean. True = deletes all clip files once concat finishes, will delete even if there's an error. False = leaves clips alone in the clips folder.
     CODEC                       -- Video codec clips will save out as. List of available codecs in README.md
-    METHOD                      -- Concatenation method. (default) "compose" Other value: 
+    METHOD                      -- Concatenation method. (default) "compose" Other value:
     FILE_TYPES                  -- File types movie_chopper will accept for chopping.
 
-'''
+"""
+
+
 LENGTH = 60
 MAX_VIDEOS = 0 # WIP doesn't do anything for now.
 NUMBER_OF_CLIPS = 3

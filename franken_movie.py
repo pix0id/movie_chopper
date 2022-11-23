@@ -3,6 +3,7 @@ from settings import *
 from utils import clip_cleanup, audio_cleanup
 from utils import get_video_files
 
+
 def concat_clips(video_folder):
     clips = get_video_files(video_folder)
     clips_list = []
@@ -11,7 +12,7 @@ def concat_clips(video_folder):
         clips_list.append(VideoFileClip(clip))
 
     print(
-    '''
+        '''
     ================================
     ==     MAKING THE MONSTER     ==
     ================================
@@ -22,7 +23,7 @@ def concat_clips(video_folder):
             clips_list,
             transition=VideoFileClip(TRANSITION) if ENABLE_TRANSITIONS else None,
             method="compose"
-            )
+        )
 
         if (ENABLE_OPENING_TRANSITION or ENABLE_ENDING_TRANSITION) and ENABLE_TRANSITIONS:
             bookends = []
@@ -34,11 +35,11 @@ def concat_clips(video_folder):
             if ENABLE_ENDING_TRANSITION:
                 bookends.append(VideoFileClip(ENDING_TRANSITION))
 
-            new_final = concatenate_videoclips(bookends,method="compose")
+            new_final = concatenate_videoclips(bookends, method="compose")
 
-            new_final.write_videofile("concat.mp4")
+            new_final.write_videofile(f"{CONCAT_PATH}concat.mp4")
         else:
-            final_clip.write_videofile("concat.mp4")
+            final_clip.write_videofile(f"{CONCAT_PATH}concat.mp4")
     except OSError as ose:
         print(f"OSERROR CONCATENATING FILES: {ose}")
     finally:
@@ -46,6 +47,7 @@ def concat_clips(video_folder):
             print("Cleaning up files....")
             clip_cleanup()
             audio_cleanup()
+
 
 if __name__ == "__main__":
     print("Run the app.py script.")

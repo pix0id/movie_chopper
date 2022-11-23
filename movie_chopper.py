@@ -15,20 +15,20 @@ def get_name_text(file):
     video_name = file_name[0].split('_')
     return video_name
 
+
 def clip_random_movie(movies):
-    '''
+    """
         Chooses a random file from the list of movies
-        Checks if the movie has been "touched" recently 
+        Checks if the movie has been "touched" recently
         (Meaning other movies haven't been "touched" recently.)
         Clips chosen movie and writes file
-    '''
+    """
 
     global touched_movies
     global count
     try:
         current_movie = random.choice(movies)
-        
-        
+
         if current_movie not in touched_movies:
             count += 1
 
@@ -36,11 +36,11 @@ def clip_random_movie(movies):
             touched_movies.append(current_movie)
             movie_name = get_name_text(current_movie_file.filename)
             movie_length = math.floor(current_movie_file.duration)
-        
-            start_index = random.randint(0, movie_length-LENGTH)
-            
-            clip = current_movie_file.subclip(start_index, start_index+LENGTH)
-            clip.write_videofile(f"{CLIP_PATH}{count}_{movie_name[0]}.mp4",codec=CODEC)
+
+            start_index = random.randint(0, movie_length - LENGTH)
+
+            clip = current_movie_file.subclip(start_index, start_index + LENGTH)
+            clip.write_videofile(f"{CLIP_PATH}{count}_{movie_name[0]}.mp4", codec=CODEC)
 
             clip.close()
         else:
@@ -56,6 +56,7 @@ def clip_random_movie(movies):
     except Exception as e:
         print("ERROR DURING CLIPPING")
         print(e)
+
 
 if __name__ == "__main__":
     print("Run the app.py script.")
