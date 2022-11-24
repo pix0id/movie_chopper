@@ -1,3 +1,4 @@
+import random
 from moviepy.editor import concatenate_videoclips, VideoFileClip
 from settings import *
 from modules.utils import clip_cleanup, audio_cleanup, get_video_files
@@ -39,7 +40,7 @@ class Franken_movie():
         )
         try:
             final_clip = concatenate_videoclips(
-                clips_list,
+                random.shuffle(clips_list),
                 transition=VideoFileClip(TRANSITION) if ENABLE_TRANSITIONS else None,
                 method="compose"
             )
@@ -69,6 +70,4 @@ class Franken_movie():
 
 
 if __name__ == "__main__":
-    print("Run the app.py script.")
-    print("Change preferences in settings.py")
-    print("Leave me alone.")
+    Franken_movie.concat_clips(MANUAL_CONCAT_PATH)
