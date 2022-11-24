@@ -3,7 +3,7 @@ import os
 import math
 import random
 from settings import *
-from utils import get_video_files
+from utils import get_video_files, dir_check
 
 
 class Movie_chopper():
@@ -69,8 +69,53 @@ class Movie_chopper():
 
             return False
 
+    
+    def select_video(self) -> str:
+        videos = get_video_files(VIDEO_PATH)
+
+        for count, video in enumerate(videos):
+            print(f"{count}: {video}")
+
+        print("="*20)
+
+        selection = input("Enter index of video to slap-chop: ")
+
+        return videos[int(selection)]
+
+
+    def slap_chop(self, video) -> None:
+        name = self.get_name_text(video)
+        name = name[0]
+
+        dir_check(f"{name}")
+
+        video_file = VideoFileClip(video)
+
+        video_length = video_file.duration
+        start_index = 0
+        count = 0
+        clip_total = video_length - LENGTH / LENGTH
+
+        
+        while count < clip_total:
+            if start_index + LENGTH < video_length:
+                clip = video_file.subclip(start_index, start_index + LENGTH)
+            else:
+                clip = video_file.subclip(start_index, video_length)
+        
+            clip.write_videofile(f"{name}/{count}_{name}.mp4", codec=CODEC)
+            
+            count += 1
+            start_index += LENGTH
+            
+        video_file.close()
+
 
 if __name__ == "__main__":
-    print("Run the app.py script.")
-    print("Change preferences in settings.py")
-    print("Leave me alone.")
+
+    mc = Movie_chopper(VIDEO_PATH)
+
+
+    selection = mc.select_video()
+
+    mc.slap_chop(video=selection)
