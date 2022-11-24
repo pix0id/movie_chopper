@@ -11,7 +11,7 @@ class Franken_movie():
     def __init__(self) -> None:
         pass
         
-    def set_concat_name() -> None:
+    def set_concat_name(self) -> None:
         name = input("Enter name for Concat (Leave blank for default): ")
 
         if len(name) > 0:
@@ -23,7 +23,7 @@ class Franken_movie():
             
             Franken_movie.concat_name = f"concat_{Franken_movie.count}"
 
-    def concat_clips(video_folder) -> None:
+    def concat_clips(self, video_folder) -> None:
         clips = get_video_files(video_folder)
         clips_list = []
 
