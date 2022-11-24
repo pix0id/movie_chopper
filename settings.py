@@ -23,7 +23,7 @@
 
 LENGTH = 60
 MAX_VIDEOS = 0 # WIP doesn't do anything for now.
-NUMBER_OF_CLIPS = 3
+NUMBER_OF_CLIPS = 1
 VIDEO_PATH = "movies/"
 CLIP_PATH = "clips/"
 CONCAT_PATH = "final_videos/"
