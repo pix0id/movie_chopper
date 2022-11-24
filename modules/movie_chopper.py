@@ -3,7 +3,7 @@ import os
 import math
 import random
 from settings import *
-from utils import get_video_files, dir_check
+from modules.utils import get_video_files, dir_check
 
 
 class Movie_chopper():
