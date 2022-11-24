@@ -5,6 +5,8 @@
     NUMBER_OF_CLIPS             -- Number of clips to create.
     VIDEO_PATH                  -- Path to start searching through
     CLIP_PATH                   -- Path clips get output to. Will be created if it doesn't exist.
+    CONCAT_PATH                 -- Directory for final exports to save out in.
+    MANUAL_CONCAT_PATH          -- clips folder that will be processed when running franken_movie.py directly. Default is CLIP_PATH.
     ENABLE_TRANSITIONS          -- "True" or "False", enables adding transitions between clips. MUST BE TRUE IF YOU WANT OPENING/ENDING TRANSITIONS!!
     ENABLE_OPENING_TRANSITION   -- "True" or "False", enables adding a "Transition clip" at the start of the video.
     ENABLE_ENDING_TRANSITION    -- "True" or "False", enables adding a "Transition clip" at the end of the video.
@@ -27,6 +29,7 @@ NUMBER_OF_CLIPS = 1
 VIDEO_PATH = "movies/"
 CLIP_PATH = "clips/"
 CONCAT_PATH = "final_videos/"
+MANUAL_CONCAT_PATH = CLIP_PATH
 ENABLE_TRANSITIONS = False
 ENABLE_OPENING_TRANSITION = True
 ENABLE_ENDING_TRANSITION = True
