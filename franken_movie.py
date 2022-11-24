@@ -7,22 +7,23 @@ class Franken_movie():
 
     concat_name = ""
     count = 0
+
     def __init__(self) -> None:
         pass
         
-    def set_concat_name(self, video_folder) -> None:
+    def set_concat_name() -> None:
         name = input("Enter name for Concat (Leave blank for default): ")
 
         if len(name) > 0:
-            self.concat_name = name
+            Franken_movie.concat_name = name
         else:
             for path in os.listdir(CONCAT_PATH):
                 if os.path.isfile(os.path.join(CONCAT_PATH, path)):
-                    self.count += 1
+                    Franken_movie.count += 1
             
-            self.concat_name = f"concat_{self.count}"
+            Franken_movie.concat_name = f"concat_{Franken_movie.count}"
 
-    def concat_clips(self, video_folder) -> None:
+    def concat_clips(video_folder) -> None:
         clips = get_video_files(video_folder)
         clips_list = []
 
@@ -55,9 +56,9 @@ class Franken_movie():
 
                 new_final = concatenate_videoclips(bookends, method="compose")
 
-                new_final.write_videofile(f"{CONCAT_PATH}{self.concat_name}.mp4")
+                new_final.write_videofile(f"{CONCAT_PATH}{Franken_movie.concat_name}.mp4")
             else:
-                final_clip.write_videofile(f"{CONCAT_PATH}{self.concat_name}.mp4")
+                final_clip.write_videofile(f"{CONCAT_PATH}{Franken_movie.concat_name}.mp4")
         except OSError as ose:
             print(f"OSERROR CONCATENATING FILES: {ose}")
         finally:

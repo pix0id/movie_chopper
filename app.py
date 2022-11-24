@@ -17,8 +17,10 @@ if __name__ == "__main__":
     dir_check(CLIP_PATH)
     dir_check(CONCAT_PATH)
     
-    while count <= NUMBER_OF_CLIPS:
-        count += 1
-        mc.clip_random_movie(movies)
+    fm.set_concat_name()
 
-    fm.concat_clips(fm, video_folder=CLIP_PATH)
+    while count < NUMBER_OF_CLIPS+1:
+        mc.clip_random_movie(mc, movies)
+        count += 1
+
+    fm.concat_clips(video_folder=CLIP_PATH)

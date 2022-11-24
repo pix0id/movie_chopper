@@ -21,6 +21,11 @@ movies/clips/*.mp4
 movies/clips/*.mkv
 movies/clips/*.wav
 movies/clips/*.mp3
+transitions/*.avi
+transitions/*.mp4
+transitions/*.mkv
+transitions/*.wav
+transitions/*.mp3
 *.pyc
 __pycache__
 *.ipynb
