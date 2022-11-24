@@ -1,8 +1,8 @@
-from utils import get_video_files
-import movie_chopper
-import franken_movie
+from modules.utils import get_video_files
+import modules.movie_chopper as movie_chopper
+import modules.franken_movie as franken_movie
 from settings import *
-from utils import dir_check
+from modules.utils import dir_check
 
 
 count = 0

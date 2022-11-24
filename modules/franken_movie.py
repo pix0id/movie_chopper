@@ -1,6 +1,6 @@
 from moviepy.editor import concatenate_videoclips, VideoFileClip
 from settings import *
-from utils import clip_cleanup, audio_cleanup, get_video_files
+from modules.utils import clip_cleanup, audio_cleanup, get_video_files
 import os
 
 class Franken_movie():
