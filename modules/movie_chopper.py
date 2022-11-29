@@ -1,4 +1,5 @@
-from moviepy.editor import CompositeVideoClip, TextClip, VideoFileClip
+# from moviepy.editor import CompositeVideoClip, TextClip, VideoFileClip
+from moviepy.editor import *
 import os
 import math
 import random
@@ -42,7 +43,8 @@ class Movie_chopper():
                 start_index = random.randint(0, movie_length - LENGTH)
 
                 clip = current_movie_file.subclip(start_index, start_index + LENGTH)
-                clip.write_videofile(f"{CLIP_PATH}{Movie_chopper.count}_{movie_name[0]}.mp4", codec=CODEC)
+                resized_clip = clip.resize((1920,1080))
+                resized_clip.write_videofile(f"{CLIP_PATH}{Movie_chopper.count}_{movie_name[0]}.mp4", codec=CODEC)
 
                 clip.close()
 

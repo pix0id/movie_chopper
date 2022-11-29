@@ -25,7 +25,7 @@
 
 LENGTH = 60
 MAX_VIDEOS = 0 # WIP doesn't do anything for now.
-NUMBER_OF_CLIPS = 1
+NUMBER_OF_CLIPS = 5
 VIDEO_PATH = "movies/"
 CLIP_PATH = "clips/"
 CONCAT_PATH = "final_videos/"
@@ -37,7 +37,7 @@ TRANSITION_PATH = "transitions/"
 OPENING_TRANSITION = f"{TRANSITION_PATH}Shatner_door_open.mp4"
 TRANSITION = f"{TRANSITION_PATH}Shatner_door_transition.mp4"
 ENDING_TRANSITION = f"{TRANSITION_PATH}Shatner_door_close.mp4"
-CLEANUP_CLIPS = True
+CLEANUP_CLIPS = False
 CODEC = "libx264"
 METHOD = "compose"
 FILE_TYPES = [
