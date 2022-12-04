@@ -42,8 +42,12 @@ class Movie_chopper():
                 start_index = random.randint(0, movie_length - LENGTH)
 
                 clip = current_movie_file.subclip(start_index, start_index + LENGTH)
-                resized_clip = clip.resize(VIDEO_CLIP_SIZE)
-                resized_clip.write_videofile(f"{CLIP_PATH}{Movie_chopper.count}_{movie_name[0]}.mp4", codec=CODEC)
+
+                if UNIFORM_SIZE:
+                    resized_clip = clip.resize(VIDEO_CLIP_SIZE)
+                    resized_clip.write_videofile(f"{CLIP_PATH}{Movie_chopper.count}_{movie_name[0]}.mp4", codec=CODEC)
+                else:
+                    clip.write_videofile(f"{CLIP_PATH}{Movie_chopper.count}_{movie_name[0]}.mp4", codec=CODEC)
 
                 clip.close()
 
