@@ -1,17 +1,18 @@
 import os
 import pathlib
-from settings import CLIP_PATH, FILE_TYPES
+from modules.settings import CLIP_PATH, FILE_TYPES
 
 
-def dir_check(dir):
+def dir_check(directory):
     '''
         If the directory does not exist, create it.
     '''
     try:
-        if not os.path.isdir(dir):
-            os.mkdir(dir)
-    except Exception:
-        print(f"ERROR WHILE CREATING {dir}: {Exception}")
+        if not os.path.isdir(directory):
+            os.mkdir(directory)
+    except OSError as e:
+        print(f"ERROR WHILE CREATING {directory}: {e}")
+
 
 
 def get_video_files(path):
