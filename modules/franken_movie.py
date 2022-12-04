@@ -1,7 +1,7 @@
 import random
 from moviepy.editor import concatenate_videoclips, VideoFileClip
 from settings import *
-from modules.utils import clip_cleanup, audio_cleanup, get_video_files
+from utils import clip_cleanup, audio_cleanup, get_video_files
 import os
 
 class Franken_movie():
@@ -39,8 +39,9 @@ class Franken_movie():
         '''
         )
         try:
+            print(clips_list)
             final_clip = concatenate_videoclips(
-                random.shuffle(clips_list),
+                clips_list,
                 transition=VideoFileClip(TRANSITION) if ENABLE_TRANSITIONS else None,
                 method="compose"
             )
@@ -57,9 +58,9 @@ class Franken_movie():
 
                 new_final = concatenate_videoclips(bookends, method="compose")
 
-                new_final.write_videofile(f"{CONCAT_PATH}{Franken_movie.concat_name}.mp4")
+                new_final.write_videofile(f"{CONCAT_PATH}{Franken_movie.concat_name}.mp4",codec=CODEC)
             else:
-                final_clip.write_videofile(f"{CONCAT_PATH}{Franken_movie.concat_name}.mp4")
+                final_clip.write_videofile(f"{CONCAT_PATH}{Franken_movie.concat_name}.mp4",codec=CODEC)
         except OSError as ose:
             print(f"OSERROR CONCATENATING FILES: {ose}")
         finally:
@@ -70,4 +71,6 @@ class Franken_movie():
 
 
 if __name__ == "__main__":
-    Franken_movie.concat_clips(MANUAL_CONCAT_PATH)
+    fm = Franken_movie()
+    fm.set_concat_name()
+    fm.concat_clips(video_folder=MANUAL_CONCAT_PATH)

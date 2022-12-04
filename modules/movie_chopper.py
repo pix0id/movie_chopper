@@ -3,7 +3,7 @@ from moviepy.editor import *
 import os
 import math
 import random
-from settings import *
+from modules.settings import *
 from modules.utils import get_video_files, dir_check
 
 
@@ -15,7 +15,7 @@ class Movie_chopper():
     def __init__(self, movies) -> None:
         self.movies = movies
 
-    def get_name_text(self, file):
+    def get_name_text(self, file) -> str:
         file_name = os.path.basename(file).split('.')
         video_name = file_name[0].split('_')
         return video_name
@@ -43,7 +43,7 @@ class Movie_chopper():
                 start_index = random.randint(0, movie_length - LENGTH)
 
                 clip = current_movie_file.subclip(start_index, start_index + LENGTH)
-                resized_clip = clip.resize((1920,1080))
+                resized_clip = clip.resize(VIDEO_CLIP_SIZE)
                 resized_clip.write_videofile(f"{CLIP_PATH}{Movie_chopper.count}_{movie_name[0]}.mp4", codec=CODEC)
 
                 clip.close()
@@ -104,7 +104,7 @@ class Movie_chopper():
                 clip = video_file.subclip(start_index, start_index + LENGTH)
             else:
                 clip = video_file.subclip(start_index, video_length)
-        
+            
             clip.write_videofile(f"{name}/{count}_{name}.mp4", codec=CODEC)
             
             count += 1

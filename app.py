@@ -1,7 +1,7 @@
 from modules.utils import get_video_files
 import modules.movie_chopper as movie_chopper
 import modules.franken_movie as franken_movie
-from settings import *
+from modules.settings import *
 from modules.utils import dir_check
 
 
