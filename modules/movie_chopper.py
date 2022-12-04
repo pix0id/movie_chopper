@@ -1,4 +1,3 @@
-# from moviepy.editor import CompositeVideoClip, TextClip, VideoFileClip
 from moviepy.editor import *
 import os
 import math

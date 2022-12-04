@@ -24,7 +24,7 @@
 
 
 LENGTH = 60
-VIDEO_CLIP_SIZE = (1920,1080) # Set to one width for now. Height will automatically be adjusted. Later on, add more complete sizes.
+VIDEO_CLIP_SIZE = (1920,1080)
 NUMBER_OF_CLIPS = 5
 VIDEO_PATH = "movies/"
 CLIP_PATH = "clips/"

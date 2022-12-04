@@ -1,6 +1,6 @@
 import os
 import pathlib
-from settings import CLIP_PATH, FILE_TYPES
+from modules.settings import CLIP_PATH, FILE_TYPES
 
 
 def dir_check(directory):
