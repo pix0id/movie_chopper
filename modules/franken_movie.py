@@ -39,7 +39,6 @@ class Franken_movie():
         '''
         )
         try:
-            print(clips_list)
             final_clip = concatenate_videoclips(
                 clips_list,
                 transition=VideoFileClip(TRANSITION) if ENABLE_TRANSITIONS else None,
