@@ -5,7 +5,7 @@ import random
 try:
     from modules.settings import *
     from modules.utils import dir_check, get_video_files
-except ImportError:
+except ModuleNotFoundError:
     from settings import *
     from utils import dir_check, get_video_files
 

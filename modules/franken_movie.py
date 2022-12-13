@@ -4,7 +4,7 @@ import os
 try:
     from modules.settings import *
     from modules.utils import clip_cleanup, audio_cleanup, get_video_files
-except ImportError:
+except ModuleNotFoundError:
     from settings import *
     from utils import clip_cleanup, audio_cleanup, get_video_files
 
