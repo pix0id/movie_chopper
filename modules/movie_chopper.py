@@ -4,10 +4,10 @@ import math
 import random
 try:
     from modules.settings import *
-    from modules.utils import clip_cleanup, audio_cleanup, get_video_files
+    from modules.utils import dir_check, get_video_files
 except ImportError:
     from settings import *
-    from utils import clip_cleanup, audio_cleanup, get_video_files
+    from utils import dir_check, get_video_files
 
 
 class Movie_chopper():
