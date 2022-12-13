@@ -2,8 +2,12 @@ from moviepy.editor import *
 import os
 import math
 import random
-from modules.settings import *
-from modules.utils import get_video_files, dir_check
+try:
+    from modules.settings import *
+    from modules.utils import clip_cleanup, audio_cleanup, get_video_files
+except ImportError:
+    from settings import *
+    from utils import clip_cleanup, audio_cleanup, get_video_files
 
 
 class Movie_chopper():

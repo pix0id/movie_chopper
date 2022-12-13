@@ -1,6 +1,9 @@
 import os
 import pathlib
-from modules.settings import CLIP_PATH, FILE_TYPES
+try:
+    from modules.settings import CLIP_PATH, FILE_TYPES
+except ModuleNotFoundError:
+    from settings import CLIP_PATH, FILE_TYPES
 
 
 def dir_check(directory):
