@@ -72,3 +72,8 @@ def get_seconds(timestamp: str) -> int:
     """
     h,m,s=timestamp.split(":")
     return int(h)*3600+int(m)*60+int(s)
+
+def file_name_text(file) -> str:
+        file_name = os.path.basename(file).split('.')
+        video_name = file_name[0].split('_')
+        return video_name

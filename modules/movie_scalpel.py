@@ -4,10 +4,10 @@ import csv
 from movie_chopper import Movie_chopper
 try:
     from modules.settings import *
-    from modules.utils import clip_cleanup, audio_cleanup, get_video_files
+    from modules.utils import dir_check, file_name_text
 except ModuleNotFoundError:
     from settings import *
-    from utils import clip_cleanup, audio_cleanup, get_video_files
+    from utils import dir_check, file_name_text
 
 class Movie_Scalpel():
 
@@ -44,7 +44,10 @@ if __name__ == "__main__":
 
     for video, timestamps in times.items():
         print(f"VIDEO: {video}")
-        print("TIMES:")
+        curr_video = VideoFileClip(f"{VIDEO_PATH}{video}")
+        dir_check(f"{CLIP_PATH}{file_name_text(video)[0]}")
+
         for timestamp in timestamps:
-            print(timestamp)
+            mc.custom_clip(video_file=curr_video,timestamp=timestamp)
         
+        curr_video.close()
