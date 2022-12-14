@@ -1,3 +1,4 @@
+from pathlib import Path
 """
     SETTINGS -
     LENGTH                      -- Length of clips in seconds.
@@ -22,7 +23,7 @@
 
 """
 
-
+ROOT_DIR = Path(__file__).resolve().parents[1]
 LENGTH = 60
 UNIFORM_SIZE = True
 VIDEO_CLIP_SIZE = (1920,1080)
@@ -46,3 +47,7 @@ FILE_TYPES = [
     'mkv',
     'mp4'
 ]
+
+
+SCALPEL = True
+

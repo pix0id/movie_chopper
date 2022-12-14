@@ -2,6 +2,8 @@ from moviepy.editor import *
 import os
 import math
 import random
+
+
 try:
     from modules.settings import *
     from modules.utils import dir_check, get_video_files
@@ -92,7 +94,7 @@ class Movie_chopper():
         return videos[int(selection)]
 
 
-    def slap_chop(self, video) -> None:
+    def slap_chop(self, video: str) -> None:
         name = self.get_name_text(video)
         name = name[0]
 

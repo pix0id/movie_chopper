@@ -6,19 +6,19 @@ except ModuleNotFoundError:
     from settings import CLIP_PATH, FILE_TYPES
 
 
-def dir_check(directory):
+def dir_check(path: str) -> None:
     '''
         If the directory does not exist, create it.
     '''
     try:
-        if not os.path.isdir(directory):
-            os.mkdir(directory)
+        if not os.path.isdir(path):
+            os.mkdir(path)
     except OSError as e:
-        print(f"ERROR WHILE CREATING {directory}: {e}")
+        print(f"ERROR WHILE CREATING {path}: {e}")
 
 
 
-def get_video_files(path):
+def get_video_files(path: str) -> list:
     """
         Generates list of videos from specified video path.
         Does not work with nested directories.
@@ -39,7 +39,7 @@ def get_video_files(path):
     return paths
 
 
-def get_file_extension(file):
+def get_file_extension(file: str) -> str | bool:
     split_name = file.split('.')
     ext = split_name[-1]
 
@@ -49,7 +49,7 @@ def get_file_extension(file):
     return False
 
 
-def clip_cleanup():
+def clip_cleanup() -> None:
     try:
         clips = get_video_files(CLIP_PATH)
 
@@ -59,9 +59,16 @@ def clip_cleanup():
         print(f"ERROR DURING CLIP CLEANUP: {e}")
 
 
-def audio_cleanup():
+def audio_cleanup() -> None:
     try:
         for mp3 in pathlib.Path("").glob('.mp3'):
             os.remove(mp3)
     except OSError as e:
         print(f"ERROR DELETING ROGUE AUDIO FILES: {e}")
+
+def get_seconds(timestamp: str) -> int:
+    """
+        Get seconds from time.
+    """
+    h,m,s=timestamp.split(":")
+    return int(h)*3600+int(m)*60+int(s)

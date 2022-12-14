@@ -1,5 +1,6 @@
 import modules.movie_chopper as movie_chopper
 import modules.franken_movie as franken_movie
+import modules.movie_scalpel as movie_scalpel
 from modules.settings import *
 from modules.utils import dir_check, get_video_files
 
