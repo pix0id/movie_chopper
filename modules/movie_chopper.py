@@ -2,22 +2,23 @@ from moviepy.editor import *
 import os
 import math
 import random
-from modules.settings import *
-from modules.utils import get_video_files, dir_check
+
+
+try:
+    from modules.settings import *
+    from modules.utils import dir_check, get_video_files, file_name_text
+except ModuleNotFoundError:
+    from settings import *
+    from utils import dir_check, get_video_files, file_name_text
 
 
 class Movie_chopper():
 
     touched_movies = []
-    count = 0
 
     def __init__(self, movies) -> None:
         self.movies = movies
-
-    def get_name_text(self, file) -> str:
-        file_name = os.path.basename(file).split('.')
-        video_name = file_name[0].split('_')
-        return video_name
+        self.count = 0
 
 
     def clip_random_movie(self) -> bool:
@@ -32,11 +33,11 @@ class Movie_chopper():
             current_movie = random.choice(self.movies)
 
             if current_movie not in Movie_chopper.touched_movies:
-                Movie_chopper.count += 1
+                self.count += 1
 
                 current_movie_file = VideoFileClip(current_movie)
                 Movie_chopper.touched_movies.append(current_movie)
-                movie_name = self.get_name_text(current_movie_file.filename)
+                movie_name = file_name_text(current_movie_file.filename)
                 movie_length = math.floor(current_movie_file.duration)
 
                 start_index = random.randint(0, movie_length - LENGTH)
@@ -45,9 +46,9 @@ class Movie_chopper():
 
                 if UNIFORM_SIZE:
                     resized_clip = clip.resize(VIDEO_CLIP_SIZE)
-                    resized_clip.write_videofile(f"{CLIP_PATH}{Movie_chopper.count}_{movie_name[0]}.mp4", codec=CODEC)
+                    resized_clip.write_videofile(f"{CLIP_PATH}{self.count}_{movie_name[0]}.mp4", codec=CODEC)
                 else:
-                    clip.write_videofile(f"{CLIP_PATH}{Movie_chopper.count}_{movie_name[0]}.mp4", codec=CODEC)
+                    clip.write_videofile(f"{CLIP_PATH}{self.count}_{movie_name[0]}.mp4", codec=CODEC)
 
                 clip.close()
 
@@ -88,8 +89,8 @@ class Movie_chopper():
         return videos[int(selection)]
 
 
-    def slap_chop(self, video) -> None:
-        name = self.get_name_text(video)
+    def slap_chop(self, video: str) -> None:
+        name = file_name_text(video)
         name = name[0]
 
         dir_check(f"{name}")
@@ -114,6 +115,17 @@ class Movie_chopper():
             start_index += LENGTH
             
         video_file.close()
+    
+    def custom_clip(self, video_file: str, timestamp: tuple) -> None:
+
+        movie_name = file_name_text(video_file.filename)
+        clip = video_file.subclip(timestamp[0], timestamp[1])
+
+        
+        clip.write_videofile(f"{CLIP_PATH}{movie_name[0]}/{self.count}_{movie_name[0]}.mp4", codec=CODEC)
+
+        self.count += 1
+        clip.close()
 
 
 if __name__ == "__main__":

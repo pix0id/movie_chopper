@@ -1,21 +1,24 @@
 import os
 import pathlib
-from modules.settings import CLIP_PATH, FILE_TYPES
+try:
+    from modules.settings import CLIP_PATH, FILE_TYPES
+except ModuleNotFoundError:
+    from settings import CLIP_PATH, FILE_TYPES
 
 
-def dir_check(directory):
+def dir_check(path: str) -> None:
     '''
         If the directory does not exist, create it.
     '''
     try:
-        if not os.path.isdir(directory):
-            os.mkdir(directory)
+        if not os.path.isdir(path):
+            os.mkdir(path)
     except OSError as e:
-        print(f"ERROR WHILE CREATING {directory}: {e}")
+        print(f"ERROR WHILE CREATING {path}: {e}")
 
 
 
-def get_video_files(path):
+def get_video_files(path: str) -> list:
     """
         Generates list of videos from specified video path.
         Does not work with nested directories.
@@ -36,7 +39,11 @@ def get_video_files(path):
     return paths
 
 
-def get_file_extension(file):
+def get_file_extension(file: str) -> str | bool:
+    """
+        Get file extention and verify that it is in the
+        FILE_TYPES constant. If not, return false.
+    """
     split_name = file.split('.')
     ext = split_name[-1]
 
@@ -46,7 +53,11 @@ def get_file_extension(file):
     return False
 
 
-def clip_cleanup():
+def clip_cleanup() -> None:
+    """
+        Removes all clips from the clips directory.
+        Used for cleanup after concatenation.
+    """
     try:
         clips = get_video_files(CLIP_PATH)
 
@@ -56,9 +67,25 @@ def clip_cleanup():
         print(f"ERROR DURING CLIP CLEANUP: {e}")
 
 
-def audio_cleanup():
+def audio_cleanup() -> None:
+    """
+        Clean up audio files left behind in root directory
+        if an error occurs.
+    """
     try:
         for mp3 in pathlib.Path("").glob('.mp3'):
             os.remove(mp3)
     except OSError as e:
         print(f"ERROR DELETING ROGUE AUDIO FILES: {e}")
+
+def get_seconds(timestamp: str) -> int:
+    """
+        Convert timestamp to seconds.
+    """
+    h,m,s=timestamp.split(":")
+    return int(h)*3600+int(m)*60+int(s)
+
+def file_name_text(file) -> str:
+        file_name = os.path.basename(file).split('.')
+        video_name = file_name[0].split('_')
+        return video_name

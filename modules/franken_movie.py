@@ -1,8 +1,13 @@
 import random
 from moviepy.editor import concatenate_videoclips, VideoFileClip
-from modules.settings import *
-from modules.utils import clip_cleanup, audio_cleanup, get_video_files
 import os
+
+try:
+    from modules.settings import *
+    from modules.utils import clip_cleanup, audio_cleanup, get_video_files
+except ModuleNotFoundError:
+    from settings import *
+    from utils import clip_cleanup, audio_cleanup, get_video_files
 
 class Franken_movie():
 
@@ -24,7 +29,7 @@ class Franken_movie():
             
             Franken_movie.concat_name = f"concat_{Franken_movie.count}"
 
-    def concat_clips(self, video_folder) -> None:
+    def concat_clips(self, video_folder: str) -> None:
         clips = get_video_files(video_folder)
         clips_list = []
 
