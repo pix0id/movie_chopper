@@ -40,6 +40,10 @@ def get_video_files(path: str) -> list:
 
 
 def get_file_extension(file: str) -> str | bool:
+    """
+        Get file extention and verify that it is in the
+        FILE_TYPES constant. If not, return false.
+    """
     split_name = file.split('.')
     ext = split_name[-1]
 
@@ -50,6 +54,10 @@ def get_file_extension(file: str) -> str | bool:
 
 
 def clip_cleanup() -> None:
+    """
+        Removes all clips from the clips directory.
+        Used for cleanup after concatenation.
+    """
     try:
         clips = get_video_files(CLIP_PATH)
 
@@ -60,6 +68,10 @@ def clip_cleanup() -> None:
 
 
 def audio_cleanup() -> None:
+    """
+        Clean up audio files left behind in root directory
+        if an error occurs.
+    """
     try:
         for mp3 in pathlib.Path("").glob('.mp3'):
             os.remove(mp3)
@@ -68,7 +80,7 @@ def audio_cleanup() -> None:
 
 def get_seconds(timestamp: str) -> int:
     """
-        Get seconds from time.
+        Convert timestamp to seconds.
     """
     h,m,s=timestamp.split(":")
     return int(h)*3600+int(m)*60+int(s)
