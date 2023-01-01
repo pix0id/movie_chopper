@@ -1,9 +1,7 @@
 import modules.movie_chopper as movie_chopper
 import modules.franken_movie as franken_movie
-import modules.movie_scalpel as movie_scalpel
-from modules.settings import *
+from modules.settings import CLIP_PATH, CONCAT_PATH, VIDEO_PATH, NUMBER_OF_CLIPS
 from modules.utils import dir_check, get_video_files
-
 
 count = 0
 movies = get_video_files(path=VIDEO_PATH)
