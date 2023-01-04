@@ -40,15 +40,15 @@ class Movie_chopper():
                 movie_name = file_name_text(current_movie_file.filename)
                 movie_length = math.floor(current_movie_file.duration)
 
-                start_index = random.randint(0, movie_length - LENGTH)
+                start_index = random.randint(0, movie_length - length)
 
-                clip = current_movie_file.subclip(start_index, start_index + LENGTH)
+                clip = current_movie_file.subclip(start_index, start_index + length)
 
-                if UNIFORM_SIZE:
-                    resized_clip = clip.resize(VIDEO_CLIP_SIZE)
-                    resized_clip.write_videofile(f"{CLIP_PATH}{self.count}_{movie_name[0]}.mp4", codec=CODEC)
+                if uniform_size:
+                    resized_clip = clip.resize(video_clip_size)
+                    resized_clip.write_videofile(f"{clip_path}{self.count}_{movie_name[0]}.mp4", codec=codec)
                 else:
-                    clip.write_videofile(f"{CLIP_PATH}{self.count}_{movie_name[0]}.mp4", codec=CODEC)
+                    clip.write_videofile(f"{clip_path}{self.count}_{movie_name[0]}.mp4", codec=codec)
 
                 clip.close()
 
@@ -77,7 +77,7 @@ class Movie_chopper():
 
     
     def select_video(self) -> str:
-        videos = get_video_files(VIDEO_PATH)
+        videos = get_video_files(video_path)
 
         for count, video in enumerate(videos):
             print(f"{count}: {video}")
@@ -100,19 +100,19 @@ class Movie_chopper():
         video_length = video_file.duration
         start_index = 0
         count = 0
-        clip_total = video_length - LENGTH / LENGTH
+        clip_total = video_length - length / length
 
         
         while count < clip_total:
-            if start_index + LENGTH < video_length:
-                clip = video_file.subclip(start_index, start_index + LENGTH)
+            if start_index + length < video_length:
+                clip = video_file.subclip(start_index, start_index + length)
             else:
                 clip = video_file.subclip(start_index, video_length)
             
-            clip.write_videofile(f"{name}/{count}_{name}.mp4", codec=CODEC)
+            clip.write_videofile(f"{name}/{count}_{name}.mp4", codec=codec)
             
             count += 1
-            start_index += LENGTH
+            start_index += length
             
         video_file.close()
     
@@ -122,7 +122,7 @@ class Movie_chopper():
         clip = video_file.subclip(timestamp[0], timestamp[1])
 
         
-        clip.write_videofile(f"{CLIP_PATH}{movie_name[0]}/{self.count}_{movie_name[0]}.mp4", codec=CODEC)
+        clip.write_videofile(f"{clip_path}{movie_name[0]}/{self.count}_{movie_name[0]}.mp4", codec=codec)
 
         self.count += 1
         clip.close()
@@ -130,7 +130,7 @@ class Movie_chopper():
 
 if __name__ == "__main__":
 
-    mc = Movie_chopper(VIDEO_PATH)
+    mc = Movie_chopper(video_path)
 
 
     selection = mc.select_video()

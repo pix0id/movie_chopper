@@ -36,16 +36,16 @@ class Movie_Scalpel():
 
 
 if __name__ == "__main__":
-    scalpel = Movie_Scalpel(f"{ROOT_DIR}/movies.csv")
-    mc = Movie_chopper(VIDEO_PATH)
+    scalpel = Movie_Scalpel(f"{root_dir}/movies.csv")
+    mc = Movie_chopper(video_path)
 
     scalpel.video_times()
     times = scalpel.get_video_times()
 
     for video, timestamps in times.items():
         print(f"VIDEO: {video}")
-        curr_video = VideoFileClip(f"{VIDEO_PATH}{video}")
-        dir_check(f"{CLIP_PATH}{file_name_text(video)[0]}")
+        curr_video = VideoFileClip(f"{video_path}{video}")
+        dir_check(f"{clip_path}{file_name_text(video)[0]}")
 
         for timestamp in timestamps:
             mc.custom_clip(video_file=curr_video,timestamp=timestamp)
