@@ -1,9 +1,9 @@
 import os
 import pathlib
 try:
-    from modules.settings import clip_path, file_types
+    from modules.settings import CLIP_PATH, FILE_TYPES
 except ModuleNotFoundError:
-    from settings import clip_path, file_types
+    from settings import CLIP_PATH, FILE_TYPES
 
 
 def dir_check(path: str) -> None:
@@ -42,12 +42,12 @@ def get_video_files(path: str) -> list:
 def get_file_extension(file: str) -> str | bool:
     """
         Get file extention and verify that it is in the
-        file_types constant. If not, return false.
+        FILE_TYPES constant. If not, return false.
     """
     split_name = file.split('.')
     ext = split_name[-1]
 
-    if ext in file_types:
+    if ext in FILE_TYPES:
         return ext
 
     return False
@@ -59,7 +59,7 @@ def clip_cleanup() -> None:
         Used for cleanup after concatenation.
     """
     try:
-        clips = get_video_files(clip_path)
+        clips = get_video_files(CLIP_PATH)
 
         for clip in clips:
             os.remove(clip)

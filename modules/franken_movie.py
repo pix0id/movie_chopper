@@ -23,8 +23,8 @@ class Franken_movie():
         if len(name) > 0:
             Franken_movie.concat_name = name
         else:
-            for path in os.listdir(concat_path):
-                if os.path.isfile(os.path.join(concat_path, path)):
+            for path in os.listdir(CONCAT_PATH):
+                if os.path.isfile(os.path.join(CONCAT_PATH, path)):
                     Franken_movie.count += 1
             
             Franken_movie.concat_name = f"concat_{Franken_movie.count}"
@@ -46,29 +46,29 @@ class Franken_movie():
         try:
             final_clip = concatenate_videoclips(
                 clips_list,
-                transition=VideoFileClip(transition) if enable_transitions else None,
+                transition=VideoFileClip(TRANSITION) if ENABLE_TRANSITIONS else None,
                 method="compose"
             )
 
-            if (enable_opening_transition or enable_ending_transition) and enable_transitions:
+            if (ENABLE_OPENING_TRANSITIONS or ENABLE_ENDING_TRANSITIONS) and ENABLE_TRANSITIONS:
                 bookends = []
-                if enable_opening_transition:
-                    bookends.append(VideoFileClip(opening_transition))
+                if ENABLE_OPENING_TRANSITIONS:
+                    bookends.append(VideoFileClip(OPENING_TRANSITION))
 
                 bookends.append(final_clip)
 
-                if enable_ending_transition:
-                    bookends.append(VideoFileClip(ending_transition))
+                if ENABLE_ENDING_TRANSITIONS:
+                    bookends.append(VideoFileClip(ENDING_TRANSITION))
 
-                new_final = concatenate_videoclips(bookends, method="compose")
+                new_final = concatenate_videoclips(bookends, METHOD="compose")
 
-                new_final.write_videofile(f"{concat_path}{Franken_movie.concat_name}.mp4",codec=codec)
+                new_final.write_videofile(f"{CONCAT_PATH}{Franken_movie.concat_name}.mp4",codec=CODEC)
             else:
-                final_clip.write_videofile(f"{concat_path}{Franken_movie.concat_name}.mp4",codec=codec)
+                final_clip.write_videofile(f"{CONCAT_PATH}{Franken_movie.concat_name}.mp4",codec=CODEC)
         except OSError as ose:
             print(f"OSERROR CONCATENATING FILES: {ose}")
         finally:
-            if cleanup_clips:
+            if CLEANUP_CLIPS:
                 print("Cleaning up files....")
                 clip_cleanup()
                 audio_cleanup()
@@ -77,4 +77,4 @@ class Franken_movie():
 if __name__ == "__main__":
     fm = Franken_movie()
     fm.set_concat_name()
-    fm.concat_clips(video_folder=manual_concat_path)
+    fm.concat_clips(video_folder=MANUAL_CONCAT_PATH)
