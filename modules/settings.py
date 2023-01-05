@@ -27,7 +27,7 @@ ROOT_DIR = Path(__file__).resolve().parents[1]
 with open(f'{ROOT_DIR}/settings.json', 'r') as f:
     json_data = json.load(f)
     data = json_data[0]
-    
+    #TODO: Figure out if settings update after saving changes.
     LENGTH = data["LENGTH"]
     UNIFORM_SIZE = data["UNIFORM_SIZE"]
     VIDEO_CLIP_SIZE = (data["VIDEO_CLIP_SIZE_H"],data["VIDEO_CLIP_SIZE_W"])
