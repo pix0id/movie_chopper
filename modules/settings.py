@@ -1,4 +1,5 @@
 from pathlib import Path
+import json
 """
     SETTINGS -
     LENGTH                      -- Length of clips in seconds.
@@ -22,32 +23,34 @@ from pathlib import Path
     FILE_TYPES                  -- File types movie_chopper will accept for chopping.
 
 """
-
 ROOT_DIR = Path(__file__).resolve().parents[1]
-LENGTH = 60
-UNIFORM_SIZE = True
-VIDEO_CLIP_SIZE = (1920,1080)
-NUMBER_OF_CLIPS = 5
-VIDEO_PATH = "movies/"
-CLIP_PATH = "clips/"
-CONCAT_PATH = "final_videos/"
-MANUAL_CONCAT_PATH = "clips/"
-ENABLE_TRANSITIONS = False
-ENABLE_OPENING_TRANSITIONS = False
-ENABLE_ENDING_TRANSITIONS = False
-TRANSITION_PATH = "TRANSITIONs/"
-OPENING_TRANSITION = f"{TRANSITION_PATH}Shatner_door_open.mp4"
-TRANSITION = f"{TRANSITION_PATH}Shatner_door_TRANSITION.mp4"
-ENDING_TRANSITION = f"{TRANSITION_PATH}Shatner_door_close.mp4"
-CLEANUP_CLIPS = False
-CODEC = "libx264"
-METHOD = "compose"
-FILE_TYPES = [
-    'avi',
-    'mkv',
-    'mp4'
-]
+with open(f'{ROOT_DIR}/settings.json', 'r') as f:
+    json_data = json.load(f)
+    data = json_data[0]
+    
+    LENGTH = data["LENGTH"]
+    UNIFORM_SIZE = data["UNIFORM_SIZE"]
+    VIDEO_CLIP_SIZE = (data["VIDEO_CLIP_SIZE_H"],data["VIDEO_CLIP_SIZE_W"])
+    NUMBER_OF_CLIPS = data["NUMBER_OF_CLIPS"]
+    VIDEO_PATH = data["VIDEO_PATH"]
+    CLIP_PATH = data["CLIP_PATH"]
+    CONCAT_PATH = data["CONCAT_PATH"]
+    MANUAL_CONCAT_PATH = data["MANUAL_CONCAT_PATH"]
+    ENABLE_TRANSITIONS = data["ENABLE_TRANSITIONS"]
+    ENABLE_OPENING_TRANSITIONS = data["ENABLE_OPENING_TRANSITIONS"]
+    ENABLE_ENDING_TRANSITIONS = data["ENABLE_ENDING_TRANSITIONS"]
+    TRANSITION_PATH = data["TRANSITION_PATH"]
+    OPENING_TRANSITION = f"{TRANSITION_PATH}{data['OPENING_TRANSITION']}"
+    TRANSITION = f"{TRANSITION_PATH}{data['TRANSITION']}"
+    ENDING_TRANSITION = f"{TRANSITION_PATH}{data['ENDING_TRANSITION']}"
+    CLEANUP_CLIPS = data['CLEANUP_CLIPS']
+    CODEC = data['CODEC']
+    METHOD = data['METHOD']
+    FILE_TYPES = data['FILE_TYPES']
 
 
-SCALPEL = True
+    SCALPEL =  data['SCALPEL']
+
+
+
 

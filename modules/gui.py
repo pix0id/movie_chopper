@@ -28,11 +28,25 @@ class ChopperView:
 
         # Settings tab
         root_dir_label = ttk.Label(tab1, text="root_dir")
-        root_dir_label.grid(column=0, row=0, padx=30, pady=30)
-        root_dir_input = ttk.Entry(tab1)
-        root_dir_input.insert(0, root_dir)
+        root_dir_label.grid(column=0, row=0, padx=5, pady=5)
 
-        root_dir_input.grid(column=1, row=0, padx=30, pady=30)
+        root_dir_input = ttk.Entry(tab1)
+        root_dir_input.insert(0, ROOT_DIR)
+        root_dir_input.grid(column=1, row=0, padx=5, pady=5)
+
+        length_label = ttk.Label(tab1, text="Length")
+        length_label.grid(column=0, row=1, padx=5, pady=5)
+
+        length_label = ttk.Entry(tab1)
+        length_label.insert(0, LENGTH)
+        length_label.grid(column=1, row=1, padx=5, pady=5)
+
+        uniform_size_label = ttk.Label(tab1, text="Length")
+        uniform_size_label.grid(column=0, row=2, padx=5, pady=5)
+        #TODO: print "true" or "false" in place of 0 or 1 for boolean values.
+        uniform_size_input = ttk.Entry(tab1)
+        uniform_size_input.insert(0, UNIFORM_SIZE)
+        uniform_size_input.grid(column=1, row=2, padx=5, pady=5)
 
 
 root = tk.Tk()

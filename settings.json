@@ -1,0 +1,26 @@
+[
+    {
+        "LENGTH": 60,
+        "UNIFORM_SIZE": true,
+        "VIDEO_CLIP_SIZE_W": 1920,
+        "VIDEO_CLIP_SIZE_H": 1080,
+        "NUMBER_OF_CLIPS": 5,
+        "VIDEO_PATH": "movies/",
+        "CLIP_PATH": "clips/",
+        "CONCAT_PATH": "final_videos/",
+        "MANUAL_CONCAT_PATH": "clips/",
+        "ENABLE_TRANSITIONS": false,
+        "ENABLE_OPENING_TRANSITIONS": false,
+        "ENABLE_ENDING_TRANSITIONS": false,
+        "TRANSITION_PATH": "transitions/",
+        "OPENING_TRANSITION": "Shatner_door_open.mp4",
+        "TRANSITION": "Shatner_door_TRANSITION.mp4",
+        "ENDING_TRANSITION": "Shatner_door_close.mp4",
+        "CLEANUP_CLIPS": false,
+        "CODEC": "libx264",
+        "METHOD": "compose",
+        "FILE_TYPES": ["avi", "mkv", "mp4"],
+
+        "SCALPEL": true
+    }
+]
