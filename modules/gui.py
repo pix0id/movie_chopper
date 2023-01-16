@@ -8,12 +8,17 @@ except ModuleNotFoundError:
 
 # https://www.geeksforgeeks.org/creating-tabbed-widget-with-python-tkinter/
 # https://www.tutorialsteacher.com/python/create-gui-using-tkinter-python
+root = tk.Tk()
+
 class ChopperView:
     def __init__(self, win):
+        self.win = win
+        pass
+    def initialize_user_interface(self):
         """Create window and inputs"""
-        win.title("Movie Chopper Utilities")
+        self.win.title("Movie Chopper Utilities")
 
-        tabControl = ttk.Notebook(win)
+        tabControl = ttk.Notebook(self.win)
         tab1 = ttk.Frame(tabControl)
         tab2 = ttk.Frame(tabControl)
         tab3 = ttk.Frame(tabControl)
@@ -41,15 +46,19 @@ class ChopperView:
         length_label.insert(0, LENGTH)
         length_label.grid(column=1, row=1, padx=5, pady=5)
 
-        uniform_size_label = ttk.Label(tab1, text="Length")
-        uniform_size_label.grid(column=0, row=2, padx=5, pady=5)
-        #TODO: print "true" or "false" in place of 0 or 1 for boolean values.
-        uniform_size_input = ttk.Entry(tab1)
-        uniform_size_input.insert(0, UNIFORM_SIZE)
+        # uniform_size_label = ttk.Label(tab1, text="Uniform Size Clips")
+        # uniform_size_label.grid(column=0, row=2, padx=5, pady=5)
+        #TODO: change boolean values to checkboxes
+        uniform_size_value = tk.BooleanVar
+        uniform_size_value.set(root, value=bool(UNIFORM_SIZE))
+        uniform_size_input = ttk.Checkbutton(tab1, variable=uniform_size_value, text="Uniform Height/Width", onvalue=True, offvalue=False, command=printValue)
         uniform_size_input.grid(column=1, row=2, padx=5, pady=5)
 
+        def printValue(self, val):
+            print(val)
 
-root = tk.Tk()
+
+
 content = ChopperView(root)
 
 root.geometry("800x600+10+10")
